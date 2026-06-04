@@ -1,4 +1,4 @@
-# Concept Registry — apache-jena-mcp
+# Concept Registry — jena-mcp
 > **Prefix**: `CONCEPT:JENA-*`
 
 | Concept ID | Name | Description |

@@ -1,1 +1,1 @@
-# apache-jena-mcp Docs
+# jena-mcp Docs

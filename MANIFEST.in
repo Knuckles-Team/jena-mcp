@@ -1,1 +1,5 @@
-include README.md include requirements.txt recursive-include jena_mcp *.py
+include README.md
+include requirements.txt
+recursive-include jena_mcp *.py
+recursive-include jena_mcp *.json
+recursive-include jena_mcp/agent_data *

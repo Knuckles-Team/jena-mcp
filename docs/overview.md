@@ -1,1 +1,1 @@
-# apache-jena-mcp Overview
+# jena-mcp Overview
