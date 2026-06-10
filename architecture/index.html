@@ -10,11 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://knuckles-team.github.io/jena-mcp/concepts/">
+        <link rel="canonical" href="https://knuckles-team.github.io/jena-mcp/architecture/">
       
       
-        <link rel="prev" href="../architecture/">
+        <link rel="prev" href="../platform/">
       
+      
+        <link rel="next" href="../concepts/">
       
       
         
@@ -25,7 +27,7 @@
     
     
       
-        <title>Concepts - jena-mcp</title>
+        <title>Architecture - jena-mcp</title>
       
     
     
@@ -76,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#concept-registry-jena-mcp" class="md-skip">
+        <a href="#architecture-jena-mcp" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Concepts
+              Architecture
             
           </span>
         </div>
@@ -346,9 +348,11 @@
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../architecture/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
@@ -365,11 +369,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../concepts/" class="md-tabs__link">
         
   
   
@@ -599,10 +601,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../architecture/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -618,6 +647,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -626,19 +708,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../concepts/" class="md-nav__link">
         
   
   
@@ -654,7 +727,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -679,6 +751,47 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -697,26 +810,38 @@
   
 
 
-<h1 id="concept-registry-jena-mcp">Concept Registry — jena-mcp<a class="headerlink" href="#concept-registry-jena-mcp" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p><strong>Prefix</strong>: <code>CONCEPT:JENA-*</code></p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>Concept ID</th>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>CONCEPT:JENA-001</code></td>
-<td>jena</td>
-<td>MCP tool domain</td>
-</tr>
-</tbody>
-</table>
+<h1 id="architecture-jena-mcp">Architecture — jena-mcp<a class="headerlink" href="#architecture-jena-mcp" title="Permanent link">&para;</a></h1>
+<p><code>jena-mcp</code> is a thin, layered connector: a typed REST client at the base, MCP tool
+wrappers above it, and an optional A2A agent server that orchestrates the same tools.</p>
+<h2 id="layers">Layers<a class="headerlink" href="#layers" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TD
+    A["MCP client / policy router"] --&gt;|MCP tools| B["jena_mcp.mcp.mcp_jena&lt;br/&gt;register_jena_tools"]
+    G["jena-agent (A2A)"] --&gt;|MCP over HTTP| B
+    B --&gt; C["JenaApi / Api&lt;br/&gt;jena_mcp.api"]
+    C --&gt;|requests| D["Apache Jena Fuseki&lt;br/&gt;:3030"]
+    E["get_client()&lt;br/&gt;jena_mcp.auth"] --&gt; C
+    F["JENA_* environment"] --&gt; E</code></pre>
+<h2 id="request-flow">Request flow<a class="headerlink" href="#request-flow" title="Permanent link">&para;</a></h2>
+<ol>
+<li>An MCP client (or the <code>jena-agent</code> A2A server) invokes one of the three
+   action-dispatch tools: <code>jena_sparql</code>, <code>jena_graph</code>, or <code>jena_admin</code>.</li>
+<li>The tool wrapper resolves a <code>JenaApi</code> via <code>get_client()</code>, which reads the
+   <code>JENA_*</code> environment variables, then dispatches the requested action to the
+   matching client method.</li>
+<li><code>JenaApi</code> issues the corresponding Fuseki REST call — SPARQL Protocol, Graph
+   Store Protocol, or the administration API — over <code>requests</code>.</li>
+</ol>
+<h2 id="design-notes">Design notes<a class="headerlink" href="#design-notes" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Single source of API surface.</strong> Every Fuseki interaction lives in
+  <code>jena_mcp/api/</code>; the MCP wrappers add no business logic.</li>
+<li><strong>Action-dispatch tools.</strong> Three coarse tools (rather than dozens) keep the agent
+  tool budget small while still covering the full protocol surface.</li>
+<li><strong>Environment-driven configuration.</strong> Connection settings come exclusively from
+  <code>JENA_*</code> variables; the connector remains inactive when credentials are absent.</li>
+</ul>
+<p>See <a href="../overview/">Overview</a> for the tool/endpoint matrix and
+<a href="../concepts/">Concepts</a> for the stable concept registry.</p>
 
 
 
@@ -754,7 +879,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../architecture/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Architecture">
+          <a href="../platform/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Backing Platform (Jena)">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -764,11 +889,27 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Architecture
+                Backing Platform (Jena)
               </div>
             </div>
           </a>
         
+        
+          
+          <a href="../concepts/" class="md-footer__link md-footer__link--next" aria-label="Next: Concepts">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Concepts
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
         
       </nav>
     

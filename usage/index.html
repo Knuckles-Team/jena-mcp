@@ -10,11 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://knuckles-team.github.io/jena-mcp/concepts/">
+        <link rel="canonical" href="https://knuckles-team.github.io/jena-mcp/usage/">
       
       
-        <link rel="prev" href="../architecture/">
+        <link rel="prev" href="../deployment/">
       
+      
+        <link rel="next" href="../platform/">
       
       
         
@@ -25,7 +27,7 @@
     
     
       
-        <title>Concepts - jena-mcp</title>
+        <title>Usage (API / CLI / MCP) - jena-mcp</title>
       
     
     
@@ -76,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#concept-registry-jena-mcp" class="md-skip">
+        <a href="#usage-api-cli-mcp" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Concepts
+              Usage (API / CLI / MCP)
             
           </span>
         </div>
@@ -308,9 +310,11 @@
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../usage/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
@@ -365,11 +369,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../concepts/" class="md-tabs__link">
         
   
   
@@ -545,10 +547,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../usage/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage (API / CLI / MCP)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -564,6 +593,76 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#as-an-mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As an MCP server
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-a-python-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As a Python API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="As a Python API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#writes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-a-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As a CLI
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -626,19 +725,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../concepts/" class="md-nav__link">
         
   
   
@@ -654,7 +744,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -679,6 +768,64 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#as-an-mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As an MCP server
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-a-python-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As a Python API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="As a Python API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#writes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-a-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As a CLI
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -697,26 +844,90 @@
   
 
 
-<h1 id="concept-registry-jena-mcp">Concept Registry — jena-mcp<a class="headerlink" href="#concept-registry-jena-mcp" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p><strong>Prefix</strong>: <code>CONCEPT:JENA-*</code></p>
-</blockquote>
+<h1 id="usage-api-cli-mcp">Usage — API / CLI / MCP<a class="headerlink" href="#usage-api-cli-mcp" title="Permanent link">&para;</a></h1>
+<p><code>jena-mcp</code> exposes the same capability three ways: as <strong>MCP tools</strong> an agent calls,
+as a <strong>Python API</strong> (<code>JenaApi</code>) you import, and as a <strong>CLI</strong>. The complete tool
+surface is summarized in <a href="../overview/">Overview</a>.</p>
+<h2 id="as-an-mcp-server">As an MCP server<a class="headerlink" href="#as-an-mcp-server" title="Permanent link">&para;</a></h2>
+<p>Once <a href="../deployment/">deployed</a>, the server registers three action-dispatch tools
+that cover the SPARQL Protocol, the Graph Store Protocol, and Fuseki administration:</p>
 <table>
 <thead>
 <tr>
-<th>Concept ID</th>
-<th>Name</th>
-<th>Description</th>
+<th>Tool</th>
+<th>Actions</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>CONCEPT:JENA-001</code></td>
-<td>jena</td>
-<td>MCP tool domain</td>
+<td><code>jena_sparql</code></td>
+<td><code>query</code> (SELECT/ASK/CONSTRUCT/DESCRIBE), <code>update</code> (INSERT/DELETE/LOAD/CLEAR)</td>
+</tr>
+<tr>
+<td><code>jena_graph</code></td>
+<td><code>get</code>, <code>put</code> (replace), <code>post</code> (merge), <code>delete</code> — via the Graph Store Protocol</td>
+</tr>
+<tr>
+<td><code>jena_admin</code></td>
+<td><code>ping</code>, <code>server_info</code>, <code>stats</code>, <code>metrics</code>, <code>list_datasets</code>, <code>dataset_info</code>, <code>create_dataset</code>, <code>delete_dataset</code>, <code>set_dataset_state</code>, <code>list_tasks</code>, <code>task_info</code>, <code>backup</code>, <code>compact</code></td>
 </tr>
 </tbody>
 </table>
+<p>Example agent prompts that map onto these tools:</p>
+<ul>
+<li><em>"List the datasets on the Fuseki server"</em> → <code>jena_admin</code> (<code>list_datasets</code>)</li>
+<li><em>"Run this SELECT query against dataset <code>ds</code>"</em> → <code>jena_sparql</code> (<code>query</code>)</li>
+<li><em>"Load this Turtle into the default graph of <code>ds</code>"</em> → <code>jena_graph</code> (<code>post</code>)</li>
+</ul>
+<h2 id="as-a-python-api">As a Python API<a class="headerlink" href="#as-a-python-api" title="Permanent link">&para;</a></h2>
+<p><code>JenaApi</code> (exported as <code>Api</code>) is a <code>requests</code>-based facade over a Fuseki endpoint,
+organized by protocol.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">jena_mcp.api_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Api</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">api</span> <span class="o">=</span> <span class="n">Api</span><span class="p">(</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;http://your-fuseki:3030&quot;</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># SPARQL reads</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">results</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;ds&quot;</span><span class="p">,</span> <span class="s2">&quot;SELECT * WHERE { ?s ?p ?o } LIMIT 10&quot;</span><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Graph Store Protocol read (default graph as Turtle)</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">turtle</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_graph</span><span class="p">(</span><span class="s2">&quot;ds&quot;</span><span class="p">)</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1"># Server administration (read-only)</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="n">datasets</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">list_datasets</span><span class="p">()</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="n">info</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">server_info</span><span class="p">()</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="n">stats</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="s2">&quot;ds&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Build a client straight from the environment:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">jena_mcp.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_client</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">api</span> <span class="o">=</span> <span class="n">get_client</span><span class="p">()</span>        <span class="c1"># reads JENA_* from the environment / .env</span>
+</span></code></pre></div>
+<h3 id="writes">Writes<a class="headerlink" href="#writes" title="Permanent link">&para;</a></h3>
+<p>SPARQL updates and Graph Store writes mutate the dataset:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">api</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;ds&quot;</span><span class="p">,</span> <span class="s2">&quot;INSERT DATA { &lt;urn:a&gt; &lt;urn:knows&gt; &lt;urn:b&gt; }&quot;</span><span class="p">)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">api</span><span class="o">.</span><span class="n">put_graph</span><span class="p">(</span><span class="s2">&quot;ds&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;urn:a&gt; &lt;urn:p&gt; &lt;urn:o&gt; .&quot;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="s2">&quot;urn:g&quot;</span><span class="p">)</span>   <span class="c1"># replace</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">api</span><span class="o">.</span><span class="n">post_graph</span><span class="p">(</span><span class="s2">&quot;ds&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;urn:a&gt; &lt;urn:p&gt; &lt;urn:o2&gt; .&quot;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="s2">&quot;urn:g&quot;</span><span class="p">)</span> <span class="c1"># merge</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Administration writes</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">api</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;ds2&quot;</span><span class="p">,</span> <span class="n">db_type</span><span class="o">=</span><span class="s2">&quot;tdb2&quot;</span><span class="p">)</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">api</span><span class="o">.</span><span class="n">backup</span><span class="p">(</span><span class="s2">&quot;ds&quot;</span><span class="p">)</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">api</span><span class="o">.</span><span class="n">compact</span><span class="p">(</span><span class="s2">&quot;ds&quot;</span><span class="p">,</span> <span class="n">delete_old</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="as-a-cli">As a CLI<a class="headerlink" href="#as-a-cli" title="Permanent link">&para;</a></h2>
+<p>Run the MCP server directly with the <code>jena-mcp</code> console script (see
+<a href="../deployment/">Deployment</a> for transports), or invoke the package as a module:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>jena-mcp<span class="w"> </span>--help
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>python<span class="w"> </span>-m<span class="w"> </span>jena_mcp
+</span></code></pre></div>
+<p>The A2A agent server is the <code>jena-agent</code> console script:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>jena-agent<span class="w"> </span>--mcp-url<span class="w"> </span>http://jena-mcp:8000/mcp<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">8001</span>
+</span></code></pre></div>
+<p>See <a href="../deployment/#agent-server">Deployment → Agent server</a> for the full agent
+configuration.</p>
 
 
 
@@ -754,7 +965,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../architecture/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Architecture">
+          <a href="../deployment/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Deployment">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -764,11 +975,27 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Architecture
+                Deployment
               </div>
             </div>
           </a>
         
+        
+          
+          <a href="../platform/" class="md-footer__link md-footer__link--next" aria-label="Next: Backing Platform (Jena)">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Backing Platform (Jena)
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
         
       </nav>
     
