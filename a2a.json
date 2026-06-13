@@ -1,7 +1,7 @@
 {
   "name": "jena-mcp-agent",
   "type": "agent",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Apache Jena (Fuseki) agent: SPARQL, Graph Store Protocol, and server administration.",
   "url": "https://github.com/Knuckles-Team/jena-mcp/tree/main",
   "license": "MIT",
