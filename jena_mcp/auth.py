@@ -1,8 +1,7 @@
 """Identity credentials loader for the Apache Jena Fuseki client."""
 
-import os
-
-from agent_utilities.base_utilities import get_logger, to_boolean
+from agent_utilities.base_utilities import get_logger
+from agent_utilities.core.config import setting
 
 from jena_mcp.api_client import Api
 
@@ -17,14 +16,14 @@ def get_client() -> Api:
     TLS verification via ``JENA_SSL_VERIFY``.
     """
     base_url = (
-        os.getenv("JENA_FUSEKI_URL")
-        or os.getenv("JENA_URL")
+        setting("JENA_FUSEKI_URL", None)
+        or setting("JENA_URL", None)
         or "http://localhost:3030"
     )
-    token = os.getenv("JENA_TOKEN", "")
-    username = os.getenv("JENA_USERNAME", "")
-    password = os.getenv("JENA_PASSWORD", "")
-    verify = to_boolean(os.getenv("JENA_SSL_VERIFY", "True"))
+    token = setting("JENA_TOKEN", "")
+    username = setting("JENA_USERNAME", "")
+    password = setting("JENA_PASSWORD", "")
+    verify = setting("JENA_SSL_VERIFY", True)
 
     return Api(
         base_url=base_url,
