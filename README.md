@@ -84,9 +84,9 @@ Auto-generated — do not edit between the markers below.
 
 | MCP Tool | Toggle Env Var | Description |
 |----------|----------------|-------------|
-| `jena_admin` | `ADMINTOOL` | Administer the Fuseki server: datasets, stats, tasks, backup, compact. |
-| `jena_graph` | `DATATOOL` | Read or modify RDF graphs via the Graph Store Protocol. |
-| `jena_sparql` | `SPARQLTOOL` | Execute a SPARQL query or update against a Fuseki dataset. |
+| `jena_admin` | `JENATOOL` | Administer the Fuseki server: datasets, stats, tasks, backup, compact. |
+| `jena_graph` | `JENATOOL` | Read or modify RDF graphs via the Graph Store Protocol. |
+| `jena_sparql` | `JENATOOL` | Execute a SPARQL query or update against a Fuseki dataset. |
 
 _3 action-routed tools (default `MCP_TOOL_MODE=condensed`). Each is enabled unless its toggle is set false; set `MCP_TOOL_MODE=verbose` (or `both`) for the 1:1 per-operation surface. Auto-generated — do not edit._
 <!-- MCP-TOOLS-TABLE:END -->
