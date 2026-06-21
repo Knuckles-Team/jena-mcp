@@ -28,10 +28,10 @@ jena-mcp = "jena_mcp.mcp_server:mcp_server"
 jena-agent = "jena_mcp.agent_server:agent_server"
 
 [project.entry-points."agent_utilities.skill_providers"]
-modular-contrib = "jena_mcp.skills"
+jena-mcp = "jena_mcp.skills"
 
 [project.entry-points."agent_utilities.prompt_providers"]
-modular-contrib = "jena_mcp.prompts"
+jena-mcp = "jena_mcp.prompts"
 
 [tool.setuptools]
 include-package-data = true
