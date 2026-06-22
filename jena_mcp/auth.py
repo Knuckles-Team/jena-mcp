@@ -11,16 +11,18 @@ logger = get_logger(__name__)
 def get_client() -> Api:
     """Build an authenticated Apache Jena Fuseki client from the environment.
 
-    Honors ``JENA_FUSEKI_URL`` (preferred) or ``JENA_URL``; bearer token via
+    Honors ``APACHE_JENA_URL`` (the deployed convention), ``JENA_FUSEKI_URL``,
+    or ``JENA_URL`` for the base URL; bearer token via ``APACHE_JENA_TOKEN`` or
     ``JENA_TOKEN``; optional basic auth via ``JENA_USERNAME``/``JENA_PASSWORD``;
     TLS verification via ``JENA_SSL_VERIFY``.
     """
     base_url = (
-        setting("JENA_FUSEKI_URL", None)
+        setting("APACHE_JENA_URL", None)
+        or setting("JENA_FUSEKI_URL", None)
         or setting("JENA_URL", None)
         or "http://localhost:3030"
     )
-    token = setting("JENA_TOKEN", "")
+    token = setting("APACHE_JENA_TOKEN", "") or setting("JENA_TOKEN", "")
     username = setting("JENA_USERNAME", "")
     password = setting("JENA_PASSWORD", "")
     verify = setting("JENA_SSL_VERIFY", True)
