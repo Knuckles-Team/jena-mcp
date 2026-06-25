@@ -29,14 +29,105 @@ Protocol, and Fuseki server administration — plus an optional Pydantic-AI agen
 server.
 
 ## Installation
+
+Pick the extra that matches what you want to run:
+
+| Extra | Installs | Use when |
+|-------|----------|----------|
+| `jena-mcp[mcp]` | Slim MCP server only (`agent-utilities[mcp]` — FastMCP/FastAPI) | You only run the **MCP server** (smallest install / image) |
+| `jena-mcp[agent]` | Full agent runtime (`agent-utilities[agent,logfire]` — Pydantic AI + the epistemic-graph engine) | You run the **integrated A2A agent** |
+| `jena-mcp[all]` | Everything (`mcp` + `agent` + `logfire`) | Development / both surfaces |
+
 ```bash
-pip install -e .
+# MCP server only (recommended for tool hosting — slim deps)
+uv pip install "jena-mcp[mcp]"
+
+# Full agent runtime (Pydantic AI + epistemic-graph engine)
+uv pip install "jena-mcp[agent]"
+
+# Everything (development)
+uv pip install "jena-mcp[all]"      # or: python -m pip install "jena-mcp[all]"
 ```
+
+### Container images (`:mcp` vs `:agent`)
+
+One multi-stage `docker/Dockerfile` builds two right-sized images, selected by `--target`:
+
+| Image tag | Build target | Contents | Entrypoint |
+|-----------|--------------|----------|------------|
+| `knucklessg1/jena-mcp:mcp` | `--target mcp` | `jena-mcp[mcp]` — **slim**, no engine/`pydantic-ai`/`dspy`/`llama-index`/`tree-sitter` | `jena-mcp` |
+| `knucklessg1/jena-mcp:latest` | `--target agent` (default) | `jena-mcp[agent]` — **full** agent runtime + epistemic-graph engine | `jena-agent` |
+
+```bash
+docker build --target mcp   -t knucklessg1/jena-mcp:mcp    docker/   # slim MCP server
+docker build --target agent -t knucklessg1/jena-mcp:latest docker/   # full agent
+```
+
+`docker/mcp.compose.yml` runs the slim `:mcp` server; `docker/compose.yml` runs the
+agent (`:latest`) with a co-located `:mcp` sidecar.
+
+### Knowledge-graph database (`epistemic-graph`)
+
+The **full agent** (`[agent]` / `:latest`) embeds the **epistemic-graph** engine (pulled in
+transitively via `agent-utilities[agent]`). For production — or to share one knowledge graph
+across multiple agents — run **epistemic-graph as its own database container** and point the
+agent at it instead of embedding it. Deployment recipes (single-node + Raft HA), connection
+config, and the full database architecture (with diagrams) are documented in the
+[epistemic-graph deployment guide](https://knuckles-team.github.io/epistemic-graph/deployment/).
+The slim `[mcp]` server does **not** require the database.
 
 ## Usage
 Run the MCP server directly:
 ```bash
 python -m jena_mcp
+```
+
+### MCP Configuration Examples
+
+> **Install the slim `[mcp]` extra.** The examples below install `jena-mcp[mcp]` —
+> the MCP-server extra that pulls only the FastMCP / FastAPI tooling
+> (`agent-utilities[mcp]`). It deliberately **excludes** the heavy agent runtime
+> (the epistemic-graph engine, `pydantic-ai`, `dspy`, `llama-index`, `tree-sitter`),
+> so `uvx`/container installs are dramatically smaller and faster. Use the full
+> `[agent]` extra only when you need the integrated A2A agent (see [Installation](#installation)).
+
+#### stdio Transport (local IDEs — Cursor, Claude Desktop)
+
+```json
+{
+  "mcpServers": {
+    "jena-mcp": {
+      "command": "uvx",
+      "args": ["--from", "jena-mcp[mcp]", "jena-mcp"],
+      "env": {
+        "JENA_FUSEKI_URL": "http://localhost:3030/ds",
+        "JENA_USERNAME": "admin",
+        "JENA_PASSWORD": "your_password"
+      }
+    }
+  }
+}
+```
+
+#### Streamable-HTTP Transport (networked / production)
+
+```json
+{
+  "mcpServers": {
+    "jena-mcp": {
+      "command": "uvx",
+      "args": ["--from", "jena-mcp[mcp]", "jena-mcp", "--transport", "streamable-http", "--port", "8000"],
+      "env": {
+        "TRANSPORT": "streamable-http",
+        "HOST": "0.0.0.0",
+        "PORT": "8000",
+        "JENA_FUSEKI_URL": "http://localhost:3030/ds",
+        "JENA_USERNAME": "admin",
+        "JENA_PASSWORD": "your_password"
+      }
+    }
+  }
+}
 ```
 
 ## Architecture
@@ -50,7 +141,8 @@ python -m jena_mcp.agent_server
 
 ### Docker
 ```bash
-docker compose -f docker/agent.compose.yml up -d
+docker compose -f docker/compose.yml up -d       # full agent (:latest) + :mcp sidecar
+docker compose -f docker/mcp.compose.yml up -d   # slim MCP server only (:mcp)
 ```
 
 <!-- BEGIN GENERATED: additional-deployment-options -->
@@ -69,14 +161,39 @@ consumed from a **remote deployment**. The
 <!-- END GENERATED: additional-deployment-options -->
 
 ## Environment Variables
-| Variable | Description |
-|----------|-------------|
-| `JENA_FUSEKI_URL` | Fuseki server base URL (alias: `JENA_URL`) |
-| `JENA_USERNAME` | Basic-auth user id |
-| `JENA_PASSWORD` | Basic-auth password |
-| `JENA_TOKEN` | Bearer token (used in place of basic auth) |
-| `JENA_SSL_VERIFY` | Verify TLS (set `False` for self-signed homelab) |
-| `JENATOOL` | Register the Jena tool set |
+
+Every variable the server reads, grouped by purpose.
+
+### Connection & Credentials (Jena / Fuseki)
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `JENA_FUSEKI_URL` | Fuseki server base URL (aliases: `APACHE_JENA_URL`, `JENA_URL`) | `http://localhost:3030/ds` |
+| `JENA_USERNAME` | Basic-auth user id | — |
+| `JENA_PASSWORD` | Basic-auth password | — |
+| `JENA_TOKEN` | Bearer token, used in place of basic auth (alias: `APACHE_JENA_TOKEN`) | — |
+| `JENA_SSL_VERIFY` | Verify TLS (set `False` for self-signed homelab) | `True` |
+
+### MCP server / transport
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `TRANSPORT` | `stdio`, `streamable-http`, or `sse` | `stdio` |
+| `HOST` | Bind host (HTTP transports) | `0.0.0.0` |
+| `PORT` | Bind port (HTTP transports) | `8000` |
+| `MCP_TOOL_MODE` | Tool surface: `condensed`, `verbose`, or `both` | `condensed` |
+
+### Telemetry & governance
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `ENABLE_OTEL` | Enable OpenTelemetry export | `True` |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | OTLP collector endpoint | — |
+| `EUNOMIA_TYPE` | Authorization mode: `none`, `embedded`, `remote` | `none` |
+| `EUNOMIA_POLICY_FILE` | Embedded policy file | `mcp_policies.json` |
+| `EUNOMIA_REMOTE_URL` | Remote Eunomia server URL | — |
+
+### Tool toggles
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `JENATOOL` | Register the Jena tool set (set `false` to disable) | `True` |
 
 ## MCP Tools
 Auto-generated — do not edit between the markers below.
