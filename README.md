@@ -168,9 +168,14 @@ consumed from a **remote deployment**. The
 
 | Variable | Example | Description |
 |----------|---------|-------------|
+| `APACHE_JENA_URL` | `http://localhost:3030` | deployed convention; takes precedence |
 | `JENA_FUSEKI_URL` | `http://localhost:3030/ds` |  |
+| `JENA_URL` | `http://localhost:3030` | fallback alias for the base URL |
+| `APACHE_JENA_TOKEN` | — | deployed convention; takes precedence |
+| `JENA_TOKEN` | — | fallback alias for the bearer token |
 | `JENA_USERNAME` | `admin` |  |
 | `JENA_PASSWORD` | `admin` |  |
+| `JENA_SSL_VERIFY` | `True` |  |
 | `JENATOOL` | `True` |  |
 
 #### Inherited agent-utilities variables (apply to every connector)
@@ -200,7 +205,7 @@ consumed from a **remote deployment**. The
 | `MODEL_ID` | `gpt-4o` | Model id for the agent |
 | `ENABLE_WEB_UI` | `True` | Serve the AG-UI web interface |
 
-_4 package + 22 inherited variable(s). Auto-generated from `.env.example` + the shared agent-utilities set — do not edit._
+_9 package + 22 inherited variable(s). Auto-generated from `.env.example` + the shared agent-utilities set — do not edit._
 <!-- ENV-VARS-TABLE:END -->
 
 
@@ -241,13 +246,44 @@ Every variable the server reads, grouped by purpose.
 Auto-generated — do not edit between the markers below.
 <!-- MCP-TOOLS-TABLE:START -->
 
+#### Condensed action-routed tools (default — `MCP_TOOL_MODE=condensed`)
+
 | MCP Tool | Toggle Env Var | Description |
 |----------|----------------|-------------|
 | `jena_admin` | `JENATOOL` | Administer the Fuseki server: datasets, stats, tasks, backup, compact. |
 | `jena_graph` | `JENATOOL` | Read or modify RDF graphs via the Graph Store Protocol. |
 | `jena_sparql` | `JENATOOL` | Execute a SPARQL query or update against a Fuseki dataset. |
 
-_3 action-routed tools (default `MCP_TOOL_MODE=condensed`). Each is enabled unless its toggle is set false; set `MCP_TOOL_MODE=verbose` (or `both`) for the 1:1 per-operation surface. Auto-generated — do not edit._
+#### Verbose 1:1 API-mapped tools (`MCP_TOOL_MODE=verbose` or `both`)
+
+<details>
+<summary>19 per-operation tools — one per public API method (click to expand)</summary>
+
+| MCP Tool | Toggle Env Var | Description |
+|----------|----------------|-------------|
+| `jena_backup` | `JENA_APITOOL` | Trigger an async backup of a dataset; returns a task handle. |
+| `jena_compact` | `JENA_APITOOL` | Trigger an async TDB2 compaction; returns a task handle. |
+| `jena_create_dataset` | `JENA_APITOOL` | Create a dataset. ``db_type`` is one of ``tdb2``, ``tdb``, ``mem``. |
+| `jena_dataset_info` | `JENA_APITOOL` | Detail for a single dataset. |
+| `jena_delete_dataset` | `JENA_APITOOL` | Remove a dataset (and its configuration). |
+| `jena_delete_graph` | `JENA_APITOOL` | Drop a graph (named or default). |
+| `jena_get_graph` | `JENA_APITOOL` | Fetch an RDF graph (named or default) as text. |
+| `jena_list_datasets` | `JENA_APITOOL` | List datasets and their state. |
+| `jena_list_tasks` | `JENA_APITOOL` | List async admin tasks (backup/compact). |
+| `jena_metrics` | `JENA_APITOOL` | Prometheus metrics exposition. |
+| `jena_ping` | `JENA_APITOOL` | Server liveness check. |
+| `jena_post_graph` | `JENA_APITOOL` | Merge the supplied RDF into a graph. |
+| `jena_put_graph` | `JENA_APITOOL` | Replace a graph with the supplied RDF. |
+| `jena_query` | `JENA_APITOOL` | Run a SPARQL read query (SELECT/ASK/CONSTRUCT/DESCRIBE). |
+| `jena_server_info` | `JENA_APITOOL` | Server build info and the list of mounted datasets/services. |
+| `jena_set_dataset_state` | `JENA_APITOOL` | Set a dataset ``active`` (online) or ``offline``. |
+| `jena_stats` | `JENA_APITOOL` | Server-wide or per-dataset request statistics. |
+| `jena_task_info` | `JENA_APITOOL` | Detail for a single async task. |
+| `jena_update` | `JENA_APITOOL` | Run a SPARQL update (INSERT/DELETE/LOAD/CLEAR). |
+
+</details>
+
+_3 action-routed tool(s) (default) · 19 verbose 1:1 tool(s). Each is enabled unless its `<DOMAIN>TOOL` toggle is set false; `MCP_TOOL_MODE` selects the surface (`condensed` default · `verbose` 1:1 · `both`). Auto-generated — do not edit._
 <!-- MCP-TOOLS-TABLE:END -->
 
 ## Documentation
