@@ -84,25 +84,36 @@ python -m jena_mcp
 
 ### MCP Configuration Examples
 
-> **Install the slim `[mcp]` extra.** The examples below install `jena-mcp[mcp]` —
-> the MCP-server extra that pulls only the FastMCP / FastAPI tooling
-> (`agent-utilities[mcp]`). It deliberately **excludes** the heavy agent runtime
-> (the epistemic-graph engine, `pydantic-ai`, `dspy`, `llama-index`, `tree-sitter`),
-> so `uvx`/container installs are dramatically smaller and faster. Use the full
-> `[agent]` extra only when you need the integrated A2A agent (see [Installation](#installation)).
+<!-- MCP-CONFIG-EXAMPLES:START -->
 
-#### stdio Transport (local IDEs — Cursor, Claude Desktop)
+> **Install the slim `[mcp]` extra.** All examples install `jena-mcp[mcp]` — the
+> MCP-server extra that pulls only the FastMCP / FastAPI tooling (`agent-utilities[mcp]`).
+> It deliberately **excludes** the heavy agent runtime (`pydantic-ai`, the epistemic-graph
+> engine, `dspy`, `llama-index`), so `uvx` / container installs are far smaller. Use the
+> full `[agent]` extra only when you need the integrated Pydantic AI agent.
+
+#### stdio Transport (local IDEs — Cursor, Claude Desktop, VS Code)
 
 ```json
 {
   "mcpServers": {
     "jena-mcp": {
       "command": "uvx",
-      "args": ["--from", "jena-mcp[mcp]", "jena-mcp"],
+      "args": [
+        "--from",
+        "jena-mcp[mcp]",
+        "jena-mcp"
+      ],
       "env": {
+        "MCP_TOOL_MODE": "condensed",
+        "APACHE_JENA_TOKEN": "",
+        "APACHE_JENA_URL": "http://localhost:3030",
+        "JENATOOL": "True",
         "JENA_FUSEKI_URL": "http://localhost:3030/ds",
-        "JENA_USERNAME": "admin",
-        "JENA_PASSWORD": "your_password"
+        "JENA_PASSWORD": "admin",
+        "JENA_TOKEN": "",
+        "JENA_URL": "http://localhost:3030",
+        "JENA_USERNAME": "admin"
       }
     }
   }
@@ -116,34 +127,69 @@ python -m jena_mcp
   "mcpServers": {
     "jena-mcp": {
       "command": "uvx",
-      "args": ["--from", "jena-mcp[mcp]", "jena-mcp", "--transport", "streamable-http", "--port", "8000"],
+      "args": [
+        "--from",
+        "jena-mcp[mcp]",
+        "jena-mcp",
+        "--transport",
+        "streamable-http",
+        "--port",
+        "8000"
+      ],
       "env": {
         "TRANSPORT": "streamable-http",
         "HOST": "0.0.0.0",
         "PORT": "8000",
+        "MCP_TOOL_MODE": "condensed",
+        "APACHE_JENA_TOKEN": "",
+        "APACHE_JENA_URL": "http://localhost:3030",
+        "JENATOOL": "True",
         "JENA_FUSEKI_URL": "http://localhost:3030/ds",
-        "JENA_USERNAME": "admin",
-        "JENA_PASSWORD": "your_password"
+        "JENA_PASSWORD": "admin",
+        "JENA_TOKEN": "",
+        "JENA_URL": "http://localhost:3030",
+        "JENA_USERNAME": "admin"
       }
     }
   }
 }
 ```
 
-## Architecture
-See `/docs` for architectural diagrams and further documentation.
+Alternatively, connect to a pre-deployed Streamable-HTTP instance by `url`:
 
-## Deployment
-### Bare-metal
-```bash
-python -m jena_mcp.agent_server
+```json
+{
+  "mcpServers": {
+    "jena-mcp": {
+      "url": "http://localhost:8000/jena-mcp/mcp"
+    }
+  }
+}
 ```
 
-### Docker
+Deploying the Streamable-HTTP server via Docker:
+
 ```bash
-docker compose -f docker/compose.yml up -d       # full agent (:latest) + :mcp sidecar
-docker compose -f docker/mcp.compose.yml up -d   # slim MCP server only (:mcp)
+docker run -d \
+  --name jena-mcp-mcp \
+  -p 8000:8000 \
+  -e TRANSPORT=streamable-http \
+  -e HOST=0.0.0.0 \
+  -e PORT=8000 \
+  -e MCP_TOOL_MODE=condensed \
+  -e APACHE_JENA_TOKEN="" \
+  -e APACHE_JENA_URL=http://localhost:3030 \
+  -e JENATOOL=True \
+  -e JENA_FUSEKI_URL=http://localhost:3030/ds \
+  -e JENA_PASSWORD=admin \
+  -e JENA_TOKEN="" \
+  -e JENA_URL=http://localhost:3030 \
+  -e JENA_USERNAME=admin \
+  knucklessg1/jena-mcp:mcp
 ```
+
+_Auto-generated from the code-read env surface (`MCP_TOOL_MODE` + package vars) — do not edit._
+<!-- MCP-CONFIG-EXAMPLES:END -->
 
 <!-- BEGIN GENERATED: additional-deployment-options -->
 ### Additional Deployment Options
