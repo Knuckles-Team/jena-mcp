@@ -3,4 +3,4 @@
 
 | Concept ID | Name | Description |
 |---|---|---|
-| `CONCEPT:JENA-001` | jena | MCP tool domain |
+| `CONCEPT:JN-OS.governance.jena` | jena | MCP tool domain |
