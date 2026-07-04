@@ -1,0 +1,156 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix : <http://knuckles.team/kg#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Apache Jena (Fuseki) ontology — the RDF triplestore / SPARQL endpoint the KG hub can
+# itself be hosted on. Models the Fuseki server topology (server -> datasets -> graphs +
+# SPARQL/GSP endpoints) and its admin lifecycle (async tasks: backup, compaction). All
+# classes/properties live in the SHARED `:` (kg#) namespace; only the owl:Ontology node
+# gets the per-package IRI. Backs the jena-mcp tool surface (jena_sparql / jena_graph /
+# jena_admin). This package is a backend/compute service, so the model describes the
+# store's own topology rather than ingested business records.
+
+# --- classes (owl:Class) ---
+
+:FusekiServer a owl:Class ;
+    rdfs:label "Fuseki Server" ;
+    rdfs:comment "An Apache Jena Fuseki server process hosting one or more datasets (jena_admin server_info/ping)." .
+
+:JenaDataset a owl:Class ;
+    rdfs:label "Jena Dataset" ;
+    rdfs:comment "A named RDF dataset mounted on a Fuseki server, backed by a storage engine (jena_admin list_datasets/dataset_info)." .
+
+:RdfGraph a owl:Class ;
+    rdfs:label "RDF Graph" ;
+    rdfs:comment "A named RDF graph (or the default graph) of triples inside a JenaDataset, read/written via the Graph Store Protocol (jena_graph)." .
+
+:SparqlEndpoint a owl:Class ;
+    rdfs:label "SPARQL Endpoint" ;
+    rdfs:comment "A query or update HTTP service exposed by a dataset (/sparql, /update) that answers SPARQL against its graphs (jena_sparql)." .
+
+:SparqlOperation a owl:Class ;
+    rdfs:label "SPARQL Operation" ;
+    rdfs:comment "A single SPARQL request executed against an endpoint — a read query (SELECT/ASK/CONSTRUCT/DESCRIBE) or an update (INSERT/DELETE/LOAD/CLEAR)." .
+
+:AdminTask a owl:Class ;
+    rdfs:label "Admin Task" ;
+    rdfs:comment "An asynchronous Fuseki admin operation (backup or compaction) tracked by a task id (jena_admin list_tasks/task_info)." .
+
+:DatasetBackup a owl:Class ;
+    rdfs:label "Dataset Backup" ;
+    rdfs:comment "A point-in-time backup artifact produced by an AdminTask over a JenaDataset (jena_admin backup)." .
+
+# --- links (owl:ObjectProperty) ---
+
+:hostsDataset a owl:ObjectProperty ;
+    rdfs:label "hosts dataset" ;
+    rdfs:comment "Links a FusekiServer to a JenaDataset it mounts and serves." ;
+    rdfs:domain :FusekiServer ;
+    rdfs:range :JenaDataset .
+
+:hasGraph a owl:ObjectProperty ;
+    rdfs:label "has graph" ;
+    rdfs:comment "Links a JenaDataset to an RdfGraph it contains." ;
+    rdfs:domain :JenaDataset ;
+    rdfs:range :RdfGraph .
+
+:hasEndpoint a owl:ObjectProperty ;
+    rdfs:label "has endpoint" ;
+    rdfs:comment "Links a JenaDataset to a SparqlEndpoint (query or update) it exposes." ;
+    rdfs:domain :JenaDataset ;
+    rdfs:range :SparqlEndpoint .
+
+:executedOnEndpoint a owl:ObjectProperty ;
+    rdfs:label "executed on endpoint" ;
+    rdfs:comment "Links a SparqlOperation to the SparqlEndpoint that ran it." ;
+    rdfs:domain :SparqlOperation ;
+    rdfs:range :SparqlEndpoint .
+
+:targetsDataset a owl:ObjectProperty ;
+    rdfs:label "targets dataset" ;
+    rdfs:comment "Links an AdminTask or SparqlOperation to the JenaDataset it acts on." ;
+    rdfs:range :JenaDataset .
+
+:producedBackup a owl:ObjectProperty ;
+    rdfs:label "produced backup" ;
+    rdfs:comment "Links an AdminTask to the DatasetBackup artifact it produced." ;
+    rdfs:domain :AdminTask ;
+    rdfs:range :DatasetBackup .
+
+:administeredBy a owl:ObjectProperty ;
+    rdfs:label "administered by" ;
+    rdfs:comment "Links a FusekiServer or AdminTask to the Person/operator responsible for it." ;
+    rdfs:range :Person .
+
+# --- fields (owl:DatatypeProperty) ---
+
+:datasetName a owl:DatatypeProperty ;
+    rdfs:label "dataset name" ;
+    rdfs:comment "The mount name of a JenaDataset (the path segment, e.g. 'ds')." ;
+    rdfs:domain :JenaDataset ;
+    rdfs:range xsd:string .
+
+:storageType a owl:DatatypeProperty ;
+    rdfs:label "storage type" ;
+    rdfs:comment "The dataset storage engine: tdb2 (default, compactable), tdb, or mem (in-memory, non-durable)." ;
+    rdfs:domain :JenaDataset ;
+    rdfs:range xsd:string .
+
+:datasetState a owl:DatatypeProperty ;
+    rdfs:label "dataset state" ;
+    rdfs:comment "Serving state of a dataset: active (online) or offline." ;
+    rdfs:domain :JenaDataset ;
+    rdfs:range xsd:string .
+
+:graphUri a owl:DatatypeProperty ;
+    rdfs:label "graph uri" ;
+    rdfs:comment "The IRI naming an RdfGraph, or the literal 'default' for the unnamed default graph." ;
+    rdfs:domain :RdfGraph ;
+    rdfs:range xsd:string .
+
+:tripleCount a owl:DatatypeProperty ;
+    rdfs:label "triple count" ;
+    rdfs:comment "Number of RDF triples in an RdfGraph or JenaDataset." ;
+    rdfs:range xsd:integer .
+
+:endpointKind a owl:DatatypeProperty ;
+    rdfs:label "endpoint kind" ;
+    rdfs:comment "The kind of SparqlEndpoint: query, update, or gsp (Graph Store Protocol)." ;
+    rdfs:domain :SparqlEndpoint ;
+    rdfs:range xsd:string .
+
+:operationForm a owl:DatatypeProperty ;
+    rdfs:label "operation form" ;
+    rdfs:comment "The SPARQL form of an operation: SELECT, ASK, CONSTRUCT, DESCRIBE, INSERT, DELETE, LOAD, or CLEAR." ;
+    rdfs:domain :SparqlOperation ;
+    rdfs:range xsd:string .
+
+:queryText a owl:DatatypeProperty ;
+    rdfs:label "query text" ;
+    rdfs:comment "The literal SPARQL query or update string of a SparqlOperation." ;
+    rdfs:domain :SparqlOperation ;
+    rdfs:range xsd:string .
+
+:taskId a owl:DatatypeProperty ;
+    rdfs:label "task id" ;
+    rdfs:comment "The Fuseki-assigned id of an asynchronous AdminTask." ;
+    rdfs:domain :AdminTask ;
+    rdfs:range xsd:string .
+
+:taskState a owl:DatatypeProperty ;
+    rdfs:label "task state" ;
+    rdfs:comment "Progress state of an AdminTask (running, finished, failed) with its start/finish timestamps." ;
+    rdfs:domain :AdminTask ;
+    rdfs:range xsd:string .
+
+<http://knuckles.team/kg/jena> a owl:Ontology ;
+    rdfs:label "Apache Jena (Fuseki) Ontology" ;
+    rdfs:comment """Apache Jena Fuseki triplestore topology and admin model — servers,
+    datasets, RDF graphs, SPARQL/GSP endpoints, SPARQL operations, and the async admin
+    tasks (backup, compaction) that maintain them — federated into the agent-utilities
+    knowledge-graph hub.""" ;
+    owl:imports <http://knuckles.team/kg> .
