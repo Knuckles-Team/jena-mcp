@@ -1,5 +1,6 @@
 ---
 name: jena-server-admin
+skill_type: skill
 description: >-
   Administer an Apache Jena Fuseki server via the jena-mcp MCP server's admin
   tool (jena_admin) — dataset lifecycle (create/list/info/delete/set-state),

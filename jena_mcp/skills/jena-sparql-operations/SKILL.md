@@ -1,5 +1,6 @@
 ---
 name: jena-sparql-operations
+skill_type: skill
 description: >-
   Run SPARQL against an Apache Jena Fuseki dataset via the jena-mcp MCP server —
   read queries (SELECT/ASK/CONSTRUCT/DESCRIBE) and updates (INSERT/DELETE/LOAD/

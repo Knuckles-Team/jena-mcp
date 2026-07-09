@@ -1,5 +1,6 @@
 ---
 name: jena-graph-store
+skill_type: skill
 description: >-
   Read, replace, merge, or drop whole RDF graphs in an Apache Jena Fuseki dataset
   via the jena-mcp MCP server's Graph Store Protocol tool (jena_graph). Use when
