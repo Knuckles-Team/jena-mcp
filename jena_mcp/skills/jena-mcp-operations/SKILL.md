@@ -1,5 +1,6 @@
 ---
 name: jena-mcp-operations
+skill_type: skill
 description: >-
   Operate jena-mcp through its governed MCP and GraphOS capabilities, including jena graph store, jena server admin, jena sparql operations. Use when a request requires this provider's read, change, automation, ingestion, troubleshooting, or evidence workflows.
 ---
