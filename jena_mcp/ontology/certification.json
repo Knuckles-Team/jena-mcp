@@ -1,0 +1,37 @@
+{
+  "api_version": "graphos.io/v1",
+  "artifacts": {
+    "a2a.json": "20faaaa091f9bc9e7404f06f2629adad2f52e1e9efccd3ad2980dcee0ca85ed3",
+    "connector_manifest.yml": "3359659ae93592973e4f467393e32ce560c47e22ede68860f2a582647108b62c",
+    "jena_mcp/connectors/mcp_source_presets.json": "a657e81018ea144ded4f0bd4773d09b0fe65ae68cf323383309a20341a33ac5f",
+    "jena_mcp/connectors/tool_schema_fingerprints.json": "ed25d7da294ad92dcbb641a5f91803e63456af95896170e644992f383cb778d3",
+    "jena_mcp/ontology/fixtures/records.json": "fac212bf141339cf5879c91615ee04bb701216c710090df2e61df3a4a8d20a7c",
+    "jena_mcp/ontology/jena.ttl": "0cf2a26e8609ba1b11e87058e242235bb9680b6f1c49f0becc691f09e881bc5e",
+    "jena_mcp/ontology/mappings/source.yaml": "53ab3e03157a016aa0bfdd8466f8097b7d1987b3d9d3648e503b05c77d75eb21",
+    "jena_mcp/ontology/migrations/manifest.json": "3ff35845c4f2cefd03d78d99d9fcae474f9f4b36ded414759fcb88cd3d7f37e7",
+    "jena_mcp/ontology/shapes/connector.shacl.ttl": "1df7ebe07d8d9d99494645a24287589d49d8bb0319985fdaaeaddf8969c077e7"
+  },
+  "checks": {
+    "declared_tool_schema": "passed",
+    "manifest_integrity": "passed",
+    "privacy_contract": "passed",
+    "shacl_parse": "passed",
+    "synthetic_fixture_contract": "passed"
+  },
+  "compatibility": {
+    "agent_utilities": ">=1.27.1,<2",
+    "bundle_schema": "2",
+    "epistemic_graph": ">=2.23.1,<3"
+  },
+  "connector": "jena-mcp",
+  "kind": "ConnectorSourceAttestation",
+  "live_certified": false,
+  "mode": "offline-source",
+  "schema_version": "2",
+  "signature": "s3hvE2oiPpaAbpgB7-iiRjpVmFJjZviquaukXfJ9okuZYPoxNjDCcM3Wr4nYwYUn1r_srPoEyoT1RIH0SjydAA",
+  "signature_algorithm": "ed25519",
+  "signer": "ontology-manifest-generator",
+  "signing_public_key": "q0Cp7bmQMqJhbofGKKw8xXC6KbFzukBDDke0UYVi8y4",
+  "status": "source-validated",
+  "validated_at": "2026-07-18T00:00:00Z"
+}

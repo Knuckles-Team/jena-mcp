@@ -1,0 +1,20 @@
+schema_version: '1'
+connector: jena-mcp
+ontology_source: jena
+sync:
+- preset: jena-sparql-records
+  server: jena-mcp
+  tool: jena_source_records
+  action: null
+  records_path: records
+  id_field: source_key
+  title_field: title
+  text_field: text
+  updated_field: null
+  doc_type: rdf-resource
+  tool_schema_sha256: df7e12b7df66d8cddb55a25edec0c9615d0b403a54f68ec9fe48634c5f3ac0fc
+governance:
+  default_acl: quarantine
+  identity: opaque-reference
+  tenant: required-at-materialization
+  provenance: required-at-materialization

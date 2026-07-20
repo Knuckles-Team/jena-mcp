@@ -30,10 +30,9 @@ organized by protocol.
 from jena_mcp.api_client import Api
 
 api = Api(
-    base_url="http://your-fuseki:3030",
+    base_url="https://jena.example.invalid",
     username="admin",
     password="admin",
-    verify=False,
 )
 
 # SPARQL reads

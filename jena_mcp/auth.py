@@ -2,6 +2,7 @@
 
 from agent_utilities.base_utilities import get_logger
 from agent_utilities.core.config import setting
+from agent_utilities.core.transport_security import resolve_configured_tls_profile
 
 from jena_mcp.api_client import Api
 
@@ -14,7 +15,7 @@ def get_client() -> Api:
     Honors ``APACHE_JENA_URL`` (the deployed convention), ``JENA_FUSEKI_URL``,
     or ``JENA_URL`` for the base URL; bearer token via ``APACHE_JENA_TOKEN`` or
     ``JENA_TOKEN``; optional basic auth via ``JENA_USERNAME``/``JENA_PASSWORD``;
-    TLS verification via ``JENA_SSL_VERIFY``.
+    TLS trust via a named ``JENA_TLS_PROFILE`` or ``JENA_TLS_PROFILE_REF``.
     """
     base_url = (
         setting("APACHE_JENA_URL", None)
@@ -25,12 +26,16 @@ def get_client() -> Api:
     token = setting("APACHE_JENA_TOKEN", "") or setting("JENA_TOKEN", "")
     username = setting("JENA_USERNAME", "")
     password = setting("JENA_PASSWORD", "")
-    verify = setting("JENA_SSL_VERIFY", True)
+    tls_profile = resolve_configured_tls_profile(
+        "jena",
+        profile_name=setting("JENA_TLS_PROFILE", None),
+        profile_ref=setting("JENA_TLS_PROFILE_REF", None),
+    )
 
     return Api(
         base_url=base_url,
         token=token or None,
         username=username or None,
         password=password or None,
-        verify=verify,
+        tls_profile=tls_profile,
     )

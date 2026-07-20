@@ -1,0 +1,13 @@
+{
+  "_comment": "Read-only Apache Jena source preset. Dataset identity is supplied by JENA_DATASET; no endpoint, credential, or local path is persisted.",
+  "jena-sparql-records": {
+    "server": "jena-mcp",
+    "tool": "jena_source_records",
+    "params_style": "args",
+    "records_path": "records",
+    "id_field": "source_key",
+    "title_field": "title",
+    "text_field": "text",
+    "doc_type": "rdf-resource"
+  }
+}

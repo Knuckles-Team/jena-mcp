@@ -56,9 +56,12 @@ actions:
   description: Execute a workflow through the agent's graph orchestration engine
 events: []
 identity:
-  id_field: {}
-  title_field: {}
-  text_field: {}
+  id_field:
+    rdf-resource: source_key
+  title_field:
+    rdf-resource: title
+  text_field:
+    rdf-resource: text
   updated_field: {}
 permissions:
   acl_fields: []
@@ -156,19 +159,44 @@ schema_mappings:
       taskId: xsd:string
       taskState: xsd:string
       tripleCount: xsd:integer
-sync: []
+sync:
+- preset: jena-sparql-records
+  server: jena-mcp
+  tool: jena_source_records
+  action: null
+  records_path: records
+  id_field: source_key
+  title_field: title
+  text_field: text
+  updated_field: null
+  pagination: null
+  doc_type: rdf-resource
+  tool_schema_sha256: df7e12b7df66d8cddb55a25edec0c9615d0b403a54f68ec9fe48634c5f3ac0fc
+  raw:
+    server: jena-mcp
+    tool: jena_source_records
+    params_style: args
+    records_path: records
+    id_field: source_key
+    title_field: title
+    text_field: text
+    doc_type: rdf-resource
 provenance:
   generated_by: scripts/generate_connector_manifests.py
-  generated_at: '2026-07-09T00:00:00Z'
+  generated_at: '2026-07-18T00:00:00Z'
   source_artifacts:
   - a2a.json
+  - jena_mcp/connectors/mcp_source_presets.json
+  - jena_mcp/connectors/tool_schema_fingerprints.json
   - jena_mcp/ontology/jena.ttl
   integrity:
     algorithm: urdna2015-sha256
     hash: d031b6277e07536930ce3ebb4d5f8790afccd90aeabbe148ac2d8634e896adc2
     triple_count: 79
   signer: ontology-manifest-generator
-  signature: a1042dceb7729075c5571e7bce5819ff525e90f89b69342509a069b79ce16f7c
+  signature_algorithm: ed25519
+  signing_public_key: q0Cp7bmQMqJhbofGKKw8xXC6KbFzukBDDke0UYVi8y4
+  signature: trB_Gn4HqTXnjyrr5nQ07sBVMbibGkTTMsuYOd8OHr5FMHEOtDfcCEOkC5e3Ihk0xEbwi-mAJNq-fdO-A15nBg
 policy:
   pii_fields: {}
   tenant_boundary: null

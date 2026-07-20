@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jena MCP Operations"
+  short_description: "Help with Jena MCP Operations tasks"
+  default_prompt: "Use $jena-mcp-operations to complete a governed provider workflow."

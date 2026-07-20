@@ -1,0 +1,20 @@
+{
+  "connector": "jena-mcp",
+  "fixtures": [
+    {
+      "expected": {
+        "acl_state": "quarantine",
+        "id": "fixture-record",
+        "title": "Synthetic certification record"
+      },
+      "preset": "jena-sparql-records",
+      "record": {
+        "acl_public": false,
+        "source_key": "fixture-record",
+        "text": "Synthetic content used only for contract validation.",
+        "title": "Synthetic certification record"
+      }
+    }
+  ],
+  "schema_version": "1"
+}

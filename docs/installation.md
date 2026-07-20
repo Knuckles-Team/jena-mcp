@@ -48,17 +48,17 @@ uv run jena-mcp
 
 ## Prebuilt Docker image
 
-A multi-stage, slim image is published on every release (installs `jena-mcp[all]`,
+A multi-stage runtime image is published on every release (installs `jena-mcp[all]`,
 entrypoint `jena-mcp`):
 
 ```bash
-docker pull knucklessg1/jena-mcp:latest
+docker pull example/jena-mcp@sha256:<digest>
 
 docker run --rm -i \
   -e JENA_FUSEKI_URL=http://your-fuseki:3030 \
   -e JENA_USERNAME=admin \
   -e JENA_PASSWORD=admin \
-  knucklessg1/jena-mcp:latest          # stdio transport (default)
+  example/jena-mcp@sha256:<digest>          # stdio transport (default)
 ```
 
 For an HTTP server with a published port, see [Deployment](deployment.md).

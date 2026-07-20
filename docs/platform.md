@@ -21,7 +21,7 @@ It mirrors the ecosystem service definition at `services/apache-jena/compose.yml
 # docker/fuseki.compose.yml
 services:
   fuseki:
-    image: secoresearch/fuseki:latest
+    image: secoresearch/fuseki@sha256:<digest>
     container_name: fuseki
     hostname: fuseki
     restart: unless-stopped
@@ -49,7 +49,8 @@ curl -s http://localhost:3030/$/ping
 export JENA_FUSEKI_URL=http://localhost:3030
 export JENA_USERNAME=admin
 export JENA_PASSWORD=admin
-export JENA_SSL_VERIFY=False           # only if Fuseki sits behind self-signed TLS
+export JENA_TLS_PROFILE=system
+export SSL_CERT_FILE=/run/secrets/private-ca-bundle.pem
 
 jena-mcp --transport streamable-http --host 0.0.0.0 --port 8000
 ```
@@ -63,7 +64,7 @@ server reaches Fuseki by container name:
 # docker/stack.compose.yml
 services:
   fuseki:
-    image: secoresearch/fuseki:latest
+    image: secoresearch/fuseki@sha256:<digest>
     hostname: fuseki
     ports: ["3030:3030"]
     environment:
@@ -71,7 +72,7 @@ services:
     volumes: ["fuseki_data:/fuseki"]
 
   jena-mcp:
-    image: knucklessg1/jena-mcp:latest
+    image: example/jena-mcp@sha256:<digest>
     depends_on: [fuseki]
     environment:
       - JENA_FUSEKI_URL=http://fuseki:3030

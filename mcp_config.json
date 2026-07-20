@@ -7,13 +7,11 @@
         "jena-mcp"
       ],
       "env": {
-        "MCP_TOOL_MODE": "condensed",
-        "APACHE_JENA_TOKEN": "",
+        "MCP_TOOL_MODE": "intent",
         "APACHE_JENA_URL": "http://localhost:3030",
         "JENATOOL": "True",
         "JENA_FUSEKI_URL": "http://localhost:3030/ds",
         "JENA_PASSWORD": "admin",
-        "JENA_TOKEN": "",
         "JENA_URL": "http://localhost:3030",
         "JENA_USERNAME": "admin"
       }
