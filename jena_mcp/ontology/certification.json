@@ -1,8 +1,7 @@
 {
   "api_version": "graphos.io/v1",
   "artifacts": {
-    "a2a.json": "b06b69e09a43dd146d4eed7b2540bdce17502faaf046f236341dee5e5a0f2979",
-    "connector_manifest.yml": "3a2c7577a88148ba3f498ef7f6870e2b1881f99237a1e08db58ca3705a6157de",
+    "connector_manifest.yml": "ad4ab8733e8c9f9b755fe49b7c7ed1e74d028c37777ec505d0b546cb198403e5",
     "jena_mcp/connectors/mcp_source_presets.json": "a657e81018ea144ded4f0bd4773d09b0fe65ae68cf323383309a20341a33ac5f",
     "jena_mcp/connectors/tool_schema_fingerprints.json": "ed25d7da294ad92dcbb641a5f91803e63456af95896170e644992f383cb778d3",
     "jena_mcp/ontology/fixtures/records.json": "fac212bf141339cf5879c91615ee04bb701216c710090df2e61df3a4a8d20a7c",
@@ -19,19 +18,19 @@
     "synthetic_fixture_contract": "passed"
   },
   "compatibility": {
-    "agent_utilities": ">=2.1.0,<3",
+    "agent_utilities": ">=2.4.0,<3",
     "bundle_schema": "2",
-    "epistemic_graph": ">=2.23.0,<3"
+    "epistemic_graph": ">=2.26.0,<3"
   },
   "connector": "jena-mcp",
   "kind": "ConnectorSourceAttestation",
   "live_certified": false,
   "mode": "offline-source",
   "schema_version": "2",
-  "signature": "QJ-SvGkLnoIZoj4jQsgunm3_nWzt5Woqk8dehjl39CedKmrs6KZPOAYYRYk_uL9Ez1NWX0yueYMe-0XT3mMbDg",
-  "signature_algorithm": "ed25519",
-  "signer": "ontology-manifest-generator",
-  "signing_public_key": "QkigdPNpcUU7x7NcSkwCsUXIQpaFncMQbYSoiSgI2SY",
+  "signature": null,
+  "signature_algorithm": "none",
+  "signer": "UNSIGNED-PREVIEW",
+  "signing_public_key": "",
   "status": "source-validated",
-  "validated_at": "2026-07-31T04:00:00Z"
+  "validated_at": "2026-08-21T04:30:39Z"
 }
