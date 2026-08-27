@@ -1,7 +1,7 @@
 {
   "api_version": "graphos.io/v1",
   "artifacts": {
-    "connector_manifest.yml": "ad4ab8733e8c9f9b755fe49b7c7ed1e74d028c37777ec505d0b546cb198403e5",
+    "connector_manifest.yml": "7463289f114383d9c67084d21388ad587b12f2f1cce525347957c7050763f822",
     "jena_mcp/connectors/mcp_source_presets.json": "a657e81018ea144ded4f0bd4773d09b0fe65ae68cf323383309a20341a33ac5f",
     "jena_mcp/connectors/tool_schema_fingerprints.json": "ed25d7da294ad92dcbb641a5f91803e63456af95896170e644992f383cb778d3",
     "jena_mcp/ontology/fixtures/records.json": "fac212bf141339cf5879c91615ee04bb701216c710090df2e61df3a4a8d20a7c",
@@ -18,9 +18,9 @@
     "synthetic_fixture_contract": "passed"
   },
   "compatibility": {
-    "agent_utilities": ">=2.4.0,<3",
+    "agent_utilities": ">=2.5.0,<3",
     "bundle_schema": "2",
-    "epistemic_graph": ">=2.26.0,<3"
+    "epistemic_graph": ">=2.27.0,<3"
   },
   "connector": "jena-mcp",
   "kind": "ConnectorSourceAttestation",
@@ -32,5 +32,5 @@
   "signer": "UNSIGNED-PREVIEW",
   "signing_public_key": "",
   "status": "source-validated",
-  "validated_at": "2026-08-21T04:30:39Z"
+  "validated_at": "2026-08-26T13:42:55Z"
 }
