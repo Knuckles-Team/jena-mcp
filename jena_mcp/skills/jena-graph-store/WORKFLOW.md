@@ -13,6 +13,12 @@ graph URI or the default graph and moves the RDF as a serialized document.
 - Replace a graph wholesale with a supplied RDF payload (`put`).
 - Merge additional triples into a graph without clearing it (`post`).
 - Drop a graph entirely (`delete`).
+- Publish a compiled, SHACL-gated OWL pack into a named graph, idempotent by
+  content digest (`jena_publish_owl_pack`).
+- Verify a published pack's triple count against a caller-supplied expected
+  count (`jena_verify_pack_count`).
+- List existing `urn:source:<system>` partition graphs, or move triples into one
+  (`jena_partition_graph`).
 
 ## When NOT to use
 - Querying/mutating by triple pattern, aggregates, or CONSTRUCT →
@@ -37,6 +43,9 @@ env as the other jena skills:
 | Tool | Actions | Key params |
 |------|---------|-----------|
 | `jena_graph` | `get`, `put`, `post`, `delete` | `dataset`, `graph`, `rdf_data`, `content_type`, `accept` |
+| `jena_publish_owl_pack` | — | `pack_iri`, `ttl_data`, `content_digest`, `dataset` |
+| `jena_verify_pack_count` | — | `pack_iri`, `dataset`, `expected_count` |
+| `jena_partition_graph` | `list`, `apply` | `dataset`, `source`, `pattern`, `from_graph` |
 
 - `dataset` — the Fuseki mount name (e.g. `ds`).
 - `graph` — a named graph URI, or `default` (the literal) / `""` for the default graph.
@@ -67,6 +76,19 @@ Drop a named graph:
 ```
 action=delete dataset=ds graph=[configured-endpoint]
 ```
+Publish a fresh OWL pack:
+```
+jena_publish_owl_pack pack_iri=urn:ca:pack:alpha ttl_data="<turtle>" content_digest=sha256:<hex> dataset=ds
+```
+Verify a published pack's triple count against eg's count:
+```
+jena_verify_pack_count pack_iri=urn:ca:pack:alpha dataset=ds expected_count=42
+```
+List / apply source partitioning:
+```
+jena_partition_graph action=list dataset=ds
+jena_partition_graph action=apply dataset=ds source=leanix pattern="?s ?p ?o . FILTER(?s = <urn:example:1>)"
+```
 
 ## Gotchas
 - `put` **replaces** the entire graph — any triples not in `rdf_data` are lost.
@@ -81,6 +103,12 @@ action=delete dataset=ds graph=[configured-endpoint]
   payload through the agent.
 - `delete` on a missing graph is a no-op/404 depending on Fuseki config — check
   the result rather than assuming success.
+- `jena_publish_owl_pack` refuses a `pack_iri` that already resolves to a
+  *different* digest — never a silent overwrite.
+- `jena_verify_pack_count`'s `COUNT(*)` includes the reserved digest marker
+  triple — account for the one-triple offset when comparing to eg's count.
+- The SHACL gate must run before `jena_publish_owl_pack` — this tool assumes a
+  gate-passed pack.
 
 ## Related
 - `jena-sparql-operations` — pattern-level query/update and server-side `LOAD`.

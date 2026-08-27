@@ -226,6 +226,7 @@ the detailed transport contract.
 | `JENA_TOKEN` | secret-injected | fallback alias for the bearer token |
 | `JENA_USERNAME` | `admin` |  |
 | `JENA_PASSWORD` | secret-injected |  |
+| `JENA_DATASET` | — |  |
 | `JENA_TLS_PROFILE` | — |  |
 | `JENA_TLS_PROFILE_REF` | — |  |
 | `JENATOOL` | `True` |  |
@@ -259,7 +260,7 @@ the detailed transport contract.
 | `MODEL_ID` | `gpt-4o` | Model id for the agent |
 | `ENABLE_WEB_UI` | `True` | Serve the AG-UI web interface |
 
-_10 package + 24 inherited variable(s). Auto-generated from `.env.example` + the shared agent-utilities set — do not edit._
+_11 package + 24 inherited variable(s). Auto-generated from `.env.example` + the shared agent-utilities set — do not edit._
 <!-- ENV-VARS-TABLE:END -->
 
 
@@ -273,6 +274,7 @@ Every variable the server reads, grouped by purpose.
 | `JENA_PASSWORD` | Basic-auth password | — |
 | `JENA_TOKEN` | Bearer token, used in place of basic auth (alias: `APACHE_JENA_TOKEN`) | — |
 | `JENA_TLS_PROFILE` | Named outbound TLS policy from AgentConfig | `system` |
+| `JENA_DATASET` | Default dataset for `jena_source_records` when no `dataset` param is passed | — |
 
 ### MCP server / transport
 | Variable | Description | Default |
@@ -300,13 +302,17 @@ Every variable the server reads, grouped by purpose.
 Auto-generated — do not edit between the markers below.
 <!-- MCP-TOOLS-TABLE:START -->
 
-#### Condensed action-routed tools (default — `MCP_TOOL_MODE=condensed`)
+#### Condensed action-routed tools (`MCP_TOOL_MODE=condensed`)
 
 | MCP Tool | Toggle Env Var | Description |
 |----------|----------------|-------------|
 | `jena_admin` | `JENATOOL` | Administer the Fuseki server: datasets, stats, tasks, backup, compact. |
 | `jena_graph` | `JENATOOL` | Read or modify RDF graphs via the Graph Store Protocol. |
+| `jena_partition_graph` | `JENATOOL` | List existing ``urn:source:*`` partition graphs, or move triples |
+| `jena_publish_owl_pack` | `JENATOOL` | Publish a SHACL-gated OWL pack into a Fuseki named graph. |
+| `jena_source_records` | `JENATOOL` | List normalized, read-only SPARQL bindings for governed ingestion. |
 | `jena_sparql` | `JENATOOL` | Execute a SPARQL query or update against a Fuseki dataset. |
+| `jena_verify_pack_count` | `JENATOOL` | Count the triples in a published pack's named graph and compare |
 
 #### Verbose 1:1 API-mapped tools (`MCP_TOOL_MODE=verbose` or `both`)
 
@@ -337,7 +343,7 @@ Auto-generated — do not edit between the markers below.
 
 </details>
 
-_3 action-routed tool(s) (default) · 19 verbose 1:1 tool(s). Each is enabled unless its `<DOMAIN>TOOL` toggle is set false; `MCP_TOOL_MODE` selects the surface (`condensed` default · `verbose` 1:1 · `both`). Auto-generated — do not edit._
+_7 action-routed tool(s) · 19 verbose 1:1 tool(s). Each is enabled unless its `<DOMAIN>TOOL` toggle is set false; `MCP_TOOL_MODE` selects the surface (**`intent` default** — the six verb-tools, granular set loaded on demand · `condensed` action-routed · `verbose` 1:1 · `both`). Auto-generated — do not edit._
 <!-- MCP-TOOLS-TABLE:END -->
 
 ## Documentation

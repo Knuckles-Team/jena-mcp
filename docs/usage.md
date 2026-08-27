@@ -6,20 +6,26 @@ surface is summarized in [Overview](overview.md).
 
 ## As an MCP server
 
-Once [deployed](deployment.md), the server registers three action-dispatch tools
-that cover the SPARQL Protocol, the Graph Store Protocol, and Fuseki administration:
+Once [deployed](deployment.md), the server registers action-dispatch tools that
+cover the SPARQL Protocol, the Graph Store Protocol, and Fuseki administration —
+plus the CA-45 OWL-pack publish/verify/partition trio:
 
 | Tool | Actions |
 |---|---|
 | `jena_sparql` | `query` (SELECT/ASK/CONSTRUCT/DESCRIBE), `update` (INSERT/DELETE/LOAD/CLEAR) |
 | `jena_graph` | `get`, `put` (replace), `post` (merge), `delete` — via the Graph Store Protocol |
 | `jena_admin` | `ping`, `server_info`, `stats`, `metrics`, `list_datasets`, `dataset_info`, `create_dataset`, `delete_dataset`, `set_dataset_state`, `list_tasks`, `task_info`, `backup`, `compact` |
+| `jena_publish_owl_pack` | Publish a SHACL-gated OWL pack into a named graph, idempotent by `(pack_iri, content_digest)`; refuses a digest conflict rather than overwriting. |
+| `jena_verify_pack_count` | `SELECT (COUNT(*) AS ?n) FROM <pack_iri> { ?s ?p ?o }`, compared against a caller-supplied `expected_count`. |
+| `jena_partition_graph` | `list` existing `urn:source:*` partition graphs, or `apply` — move triples matching a pattern into a source's canonical partition graph. |
 
 Example agent prompts that map onto these tools:
 
 - *"List the datasets on the Fuseki server"* → `jena_admin` (`list_datasets`)
 - *"Run this SELECT query against dataset `ds`"* → `jena_sparql` (`query`)
 - *"Load this Turtle into the default graph of `ds`"* → `jena_graph` (`post`)
+- *"Publish this compiled OWL pack into `<urn:ca:pack:alpha>`"* → `jena_publish_owl_pack`
+- *"Does the published pack's triple count match eg's?"* → `jena_verify_pack_count`
 
 ## As a Python API
 

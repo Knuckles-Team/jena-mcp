@@ -6,16 +6,23 @@ Graph Store Protocol (GSP), and the Fuseki administration API.
 
 ## Tool surface
 
-The MCP server registers three action-dispatch tools:
+The MCP server registers action-dispatch tools plus a `source`-tagged read tool and
+the CA-45 OWL-pack publish/verify/partition trio:
 
 | Tool | Tag | Actions |
 |---|---|---|
 | `jena_sparql` | `sparql` | `query`, `update` |
+| `jena_source_records` | `sparql`, `source` | (read-only SELECT bindings for governed ingestion) |
 | `jena_graph` | `data` | `get`, `put`, `post`, `delete` |
 | `jena_admin` | `admin` | `ping`, `server_info`, `stats`, `metrics`, `list_datasets`, `dataset_info`, `create_dataset`, `delete_dataset`, `set_dataset_state`, `list_tasks`, `task_info`, `backup`, `compact` |
+| `jena_publish_owl_pack` | `admin`, `kg` | idempotent-by-digest OWL pack publish into a named graph |
+| `jena_verify_pack_count` | `admin` | `COUNT(*)` over a pack's named graph vs. a caller-supplied expected count |
+| `jena_partition_graph` | `admin`, `data` | `list`, `apply` — `urn:source:<system>` named-graph routing |
 
-Each tool dispatches to a method on the **`JenaApi`** client. All business logic
-lives in the API layer; the MCP wrappers add none.
+Each tool dispatches to a method on the **`JenaApi`** client (the CA-45 trio adds a
+small amount of digest-conflict / count-comparison logic alongside the dispatch,
+documented in `jena_mcp/mcp/mcp_jena.py`). All other business logic lives in the API
+layer; the MCP wrappers add none.
 
 ## Components
 
@@ -33,9 +40,9 @@ lives in the API layer; the MCP wrappers add none.
 
 | Protocol | Path | Used by |
 |---|---|---|
-| SPARQL query | `POST {dataset}/sparql` | `jena_sparql` (`query`) |
-| SPARQL update | `POST {dataset}/update` | `jena_sparql` (`update`) |
-| Graph Store | `{dataset}/data` | `jena_graph` |
+| SPARQL query | `POST {dataset}/sparql` | `jena_sparql` (`query`), `jena_verify_pack_count`, `jena_partition_graph` (`list`) |
+| SPARQL update | `POST {dataset}/update` | `jena_sparql` (`update`), `jena_partition_graph` (`apply`) |
+| Graph Store | `{dataset}/data` | `jena_graph`, `jena_publish_owl_pack` |
 | Administration | `/$/datasets`, `/$/stats`, `/$/ping`, `/$/tasks`, … | `jena_admin` |
 
 See [Usage](usage.md) for examples and [Deployment](deployment.md) for the

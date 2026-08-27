@@ -22,8 +22,11 @@ typed MCP tools and an optional Pydantic-AI agent server. It provides:
 - **`JenaApi`** — a tolerant `requests`-based REST facade over a Fuseki endpoint,
   organized by protocol (SPARQL, Graph Store, administration); every call degrades
   to a clear error rather than failing silently.
-- **Three action-dispatch MCP tools** — `jena_sparql`, `jena_graph`, and
-  `jena_admin` — covering reads, writes, and server administration.
+- **Action-dispatch MCP tools** — `jena_sparql`, `jena_graph`, and
+  `jena_admin` covering reads, writes, and server administration; plus the CA-45
+  OWL-pack trio — `jena_publish_owl_pack`, `jena_verify_pack_count`,
+  `jena_partition_graph` — for publishing/verifying an OWL pack into a named graph
+  and routing triples into `urn:source:<system>` partitions.
 - **An A2A agent server** (`jena-agent`) that runs graph-orchestrated workflows over
   the same tool surface.
 

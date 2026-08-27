@@ -3,28 +3,41 @@ name: jena-graph-store
 skill_type: skill
 description: >-
   Read, replace, merge, or drop whole RDF graphs in an Apache Jena Fuseki dataset
-  via the jena-mcp MCP server's Graph Store Protocol tool (jena_graph). Use when
-  the agent must export a named/default graph as RDF, bulk-load an RDF document,
-  merge triples into a graph, or delete a graph outright. Do NOT use for
-  fine-grained SELECT/UPDATE by pattern (use jena-sparql-operations) or for
-  server/dataset administration (use jena-server-admin).
+  via the jena-mcp MCP server's Graph Store Protocol tool (jena_graph); publish and
+  verify a SHACL-gated OWL pack into a named graph (jena_publish_owl_pack,
+  jena_verify_pack_count); and list/apply urn:source:<system> named-graph
+  partitioning (jena_partition_graph). Use when the agent must export a
+  named/default graph as RDF, bulk-load an RDF document, merge triples into a
+  graph, delete a graph outright, publish an OWL pack idempotently by content
+  digest, verify a published pack's triple count, or route triples into their
+  source-partitioned named graph. Do NOT use for fine-grained SELECT/UPDATE by
+  pattern (use jena-sparql-operations) or for server/dataset administration (use
+  jena-server-admin).
 license: MIT
 tags: [jena, fuseki, gsp, graph-store, rdf, mcp]
 metadata:
   author: Genius
-  version: '0.1.0'
+  version: '0.2.0'
 ---
 # Jena Graph Store (GSP)
 
 Whole-graph RDF I/O against an Apache Jena **Fuseki** dataset via the SPARQL
 1.1 **Graph Store Protocol** (`/data`). The `jena_graph` tool addresses a named
-graph URI or the default graph and moves the RDF as a serialized document.
+graph URI or the default graph and moves the RDF as a serialized document. The
+CA-45 trio extends this into a governed OWL-pack publish/verify round trip and
+source-partition routing, both still built on the Graph Store / SPARQL protocols.
 
 ## When to use
 - Export a named or default graph as an RDF document (Turtle, N-Triples, JSON-LD…).
 - Replace a graph wholesale with a supplied RDF payload (`put`).
 - Merge additional triples into a graph without clearing it (`post`).
 - Drop a graph entirely (`delete`).
+- Publish a compiled, SHACL-gated OWL pack into a named graph, idempotent by
+  content digest (`jena_publish_owl_pack`).
+- Verify a published pack's triple count against a caller-supplied expected
+  count, e.g. eg's own `COUNT(*)` over the same pack IRI (`jena_verify_pack_count`).
+- List existing `urn:source:<system>` partition graphs, or move triples matching
+  a pattern into one (`jena_partition_graph`).
 
 ## When NOT to use
 - Querying/mutating by triple pattern, aggregates, or CONSTRUCT →
@@ -49,12 +62,27 @@ env as the other jena skills:
 | Tool | Actions | Key params |
 |------|---------|-----------|
 | `jena_graph` | `get`, `put`, `post`, `delete` | `dataset`, `graph`, `rdf_data`, `content_type`, `accept` |
+| `jena_publish_owl_pack` | — | `pack_iri`, `ttl_data`, `content_digest`, `dataset` |
+| `jena_verify_pack_count` | — | `pack_iri`, `dataset`, `expected_count` |
+| `jena_partition_graph` | `list`, `apply` | `dataset`, `source`, `pattern`, `from_graph` |
 
 - `dataset` — the Fuseki mount name (e.g. `ds`).
 - `graph` — a named graph URI, or `default` (the literal) / `""` for the default graph.
 - `rdf_data` — the serialized RDF payload (for `put`/`post`).
 - `content_type` — serialization of `rdf_data` (default `text/turtle`).
 - `accept` — desired serialization of the returned graph (for `get`, default `text/turtle`).
+- `pack_iri` — the named graph IRI a pack is published/verified under; never
+  inferred from a filename — always supplied explicitly by the caller.
+- `content_digest` — a content digest (e.g. sha256 hex) of `ttl_data`, used for
+  idempotency: matching digest on republish is a no-op, a different digest is a
+  typed conflict, never a silent overwrite.
+- `expected_count` — the triple count to compare `jena_verify_pack_count`'s own
+  `COUNT(*)` against (the caller supplies both numbers; this tool does not call
+  eg itself).
+- `source` / `pattern` / `from_graph` — for `jena_partition_graph`'s `apply`
+  action: the source-system id (routed via `source_partition.py`'s
+  `urn:source:<system>` convention), the SPARQL graph pattern selecting triples
+  to move, and the graph to move them from (empty = default graph).
 
 ## Recipes
 Export the default graph as Turtle:
@@ -79,6 +107,28 @@ Drop a named graph:
 ```
 action=delete dataset=ds graph=http://example.org/g1
 ```
+Publish a fresh OWL pack (first publish, creates the graph + digest marker):
+```
+jena_publish_owl_pack pack_iri=urn:ca:pack:alpha ttl_data="@prefix : <http://knuckles.team/kg#> . :s :p :o ."
+content_digest=sha256:<hex> dataset=ds
+```
+Republish the same pack unchanged (no-op, idempotent):
+```
+jena_publish_owl_pack pack_iri=urn:ca:pack:alpha ttl_data="<same ttl>" content_digest=sha256:<same hex> dataset=ds
+```
+Verify a published pack's triple count against eg's count:
+```
+jena_verify_pack_count pack_iri=urn:ca:pack:alpha dataset=ds expected_count=42
+```
+List existing source partitions:
+```
+jena_partition_graph action=list dataset=ds
+```
+Move triples tagged for `leanix` into their partition graph:
+```
+jena_partition_graph action=apply dataset=ds source=leanix
+pattern="?s ?p ?o . FILTER(?s = <urn:example:1>)"
+```
 
 ## Gotchas
 - `put` **replaces** the entire graph — any triples not in `rdf_data` are lost.
@@ -93,6 +143,18 @@ action=delete dataset=ds graph=http://example.org/g1
   payload through the agent.
 - `delete` on a missing graph is a no-op/404 depending on Fuseki config — check
   the result rather than assuming success.
+- `jena_publish_owl_pack` refuses (does not overwrite) when `pack_iri` already
+  resolves to a graph with a *different* digest — publish under a new `pack_iri`
+  or resolve the conflict upstream; never retry with a forced overwrite.
+- `jena_verify_pack_count`'s `COUNT(*)` includes the reserved
+  `<pack_iri> <urn:ca:digest> "…">` marker triple `jena_publish_owl_pack` writes
+  into the graph — a caller comparing against eg's own count should account for
+  that one-triple offset.
+- The SHACL gate must run **before** `jena_publish_owl_pack` is ever called — this
+  tool assumes a gate-passed pack and does not itself validate content.
+- `jena_partition_graph`'s `apply` moves triples matching `pattern` verbatim; a
+  pattern that is too broad relocates more than intended — scope it precisely
+  (e.g. a `FILTER` on the subject) before running against production data.
 
 ## Related
 - `jena-sparql-operations` — pattern-level query/update and server-side `LOAD`.
