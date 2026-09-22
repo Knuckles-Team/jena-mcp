@@ -176,7 +176,7 @@ sync:
   updated_field: null
   pagination: null
   doc_type: rdf-resource
-  tool_schema_sha256: df7e12b7df66d8cddb55a25edec0c9615d0b403a54f68ec9fe48634c5f3ac0fc
+  tool_schema_sha256: 88839ed46b789d02d4be0f8f1f4a0a644dc94e6f97df5ce451c8bf446a288846
   raw:
     server: jena-mcp
     tool: jena_source_records
@@ -201,7 +201,7 @@ provenance:
   signature_algorithm: none
   signing_public_key: ''
   signature: null
-  dependency_lock_digest: d9a7a8eafa985d82a117af04bd873825c6ee2cae172ea813fdad13e2db9df1fd
+  source_commit: 34a7c74afbfcfcdf0f41d070efa1c4c5a5853278
 policy:
   pii_fields: {}
   tenant_boundary: null
