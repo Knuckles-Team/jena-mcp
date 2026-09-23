@@ -29,9 +29,7 @@ def _sparql_records(result: Any, *, max_records: int) -> list[dict[str, Any]]:
         if not isinstance(binding, dict):
             continue
         values = {
-            str(name): (
-                value.get("value") if isinstance(value, dict) else value
-            )
+            str(name): (value.get("value") if isinstance(value, dict) else value)
             for name, value in binding.items()
         }
         source_key = values.get("id") or values.get("s") or f"row-{index}"
@@ -73,7 +71,22 @@ def register_jena_tools(mcp: FastMCP) -> None:
             return client.update(dataset, sparql)
         raise ValueError(f"Unknown action: {action!r} (use 'query' or 'update').")
 
-    @mcp.tool(tags={"sparql", "source"})
+    @mcp.tool(
+        tags={"sparql", "source"},
+        annotations={
+            "readOnlyHint": True,
+            "destructiveHint": False,
+            "idempotentHint": True,
+            "openWorldHint": True,
+        },
+        meta={
+            "eg.annotations": {
+                "modalities_in": ["text"],
+                "modalities_out": ["text"],
+                "provides": ["eg:capability/retrieval/graph-query"],
+            }
+        },
+    )
     async def jena_source_records(
         dataset: str = Field(
             default="",
@@ -102,7 +115,7 @@ def register_jena_tools(mcp: FastMCP) -> None:
         if not selected_dataset:
             raise ValueError("a Jena dataset must be configured")
         selected_query = sparql.strip() or (
-            "SELECT ?s ?p ?o WHERE { ?s ?p ?o } " f"LIMIT {max_records}"
+            f"SELECT ?s ?p ?o WHERE {{ ?s ?p ?o }} LIMIT {max_records}"
         )
         normalized = selected_query.lstrip().upper()
         if not normalized.startswith("SELECT"):
@@ -152,9 +165,7 @@ def register_jena_tools(mcp: FastMCP) -> None:
             return client.post_graph(dataset, rdf_data, graph_arg, content_type)
         if action == "delete":
             return client.delete_graph(dataset, graph_arg)
-        raise ValueError(
-            f"Unknown action: {action!r} (use get/put/post/delete)."
-        )
+        raise ValueError(f"Unknown action: {action!r} (use get/put/post/delete).")
 
     @mcp.tool(tags={"admin"})
     async def jena_admin(
