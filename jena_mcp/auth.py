@@ -1,8 +1,8 @@
 """Identity credentials loader for the Apache Jena Fuseki client."""
 
-from agent_utilities.base_utilities import get_logger
-from agent_utilities.core.config import setting
-from agent_utilities.core.transport_security import resolve_configured_tls_profile
+from agent_connector_sdk.config import setting
+from agent_connector_sdk.tls.resolve import resolve_tls_profile
+from agent_connector_sdk.utilities import get_logger
 
 from jena_mcp.api_client import Api
 
@@ -26,7 +26,7 @@ def get_client() -> Api:
     token = setting("APACHE_JENA_TOKEN", "") or setting("JENA_TOKEN", "")
     username = setting("JENA_USERNAME", "")
     password = setting("JENA_PASSWORD", "")
-    tls_profile = resolve_configured_tls_profile(
+    tls_profile = resolve_tls_profile(
         "jena",
         profile_name=setting("JENA_TLS_PROFILE", None),
         profile_ref=setting("JENA_TLS_PROFILE_REF", None),
