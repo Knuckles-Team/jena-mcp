@@ -82,7 +82,7 @@ The transport is selected with `--transport` (or the `TRANSPORT` env var):
     ```bash
     jena-mcp
     ```
-    For IDE / desktop MCP clients that launch the server as a subprocess.
+    For IDE / desktop MCP clients that start the server as a subprocess.
 
 === "streamable-http"
 
@@ -119,7 +119,7 @@ curl -s http://localhost:8000/health        # {"status":"OK"}
 Plus `HOST` / `PORT` / `TRANSPORT` for HTTP transports. A starting template is
 provided in
 [`.env.example`](https://github.com/Knuckles-Team/jena-mcp/blob/main/.env.example) —
-copy it to `.env` and fill in your connection settings.
+copy it to `.env` and fill in the operator's connection settings.
 
 ## Docker Compose
 
@@ -158,7 +158,7 @@ docker compose -f docker/mcp.compose.yml logs -f
 
 ## Behind a Caddy reverse proxy
 
-Expose the HTTP server on a hostname with automatic TLS. Add to your `Caddyfile`:
+Expose the HTTP server on a hostname with automatic TLS. Add to the operator's `Caddyfile`:
 
 ```caddy
 # Internal (self-signed) — homelab .example.invalid zone
@@ -202,7 +202,7 @@ this as a tool.
 
 ## Register with an MCP client
 
-Add to your client's `mcp_config.json`:
+Add to the operator's client's `mcp_config.json`:
 
 ```json
 {

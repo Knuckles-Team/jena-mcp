@@ -34,7 +34,7 @@ register before a Fuseki endpoint is reachable.
 
 <div class="grid cards" markdown>
 
-- :material-rocket-launch: **[Installation](installation.md)** — pip, source, extras, and the prebuilt Docker image.
+- :material-rocket-start: **[Installation](installation.md)** — pip, source, extras, and the prebuilt Docker image.
 - :material-server-network: **[Deployment](deployment.md)** — run the MCP and agent servers, Docker Compose, Caddy + Technitium.
 - :material-console: **[Usage](usage.md)** — the MCP tools, the `JenaApi` client, and the CLI.
 - :material-database-cog: **[Backing Platform](platform.md)** — deploy Apache Jena Fuseki with Docker.
