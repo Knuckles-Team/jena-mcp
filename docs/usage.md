@@ -1,7 +1,7 @@
 # Usage — API / CLI / MCP
 
 `jena-mcp` exposes the same capability three ways: as **MCP tools** an agent calls,
-as a **Python API** (`JenaApi`) you import, and as a **CLI**. The complete tool
+as a **Python API** (`JenaApi`) the operator import, and as a **CLI**. The complete tool
 surface is summarized in [Overview](overview.md).
 
 ## As an MCP server
@@ -11,7 +11,7 @@ that cover the SPARQL Protocol, the Graph Store Protocol, and Fuseki administrat
 
 | Tool | Actions |
 |---|---|
-| `jena_sparql` | `query` (SELECT/ASK/CONSTRUCT/DESCRIBE), `update` (INSERT/DELETE/LOAD/CLEAR) |
+| `jena_sparql` | `query` (SELECT/ASK/Build/DESCRIBE), `update` (INSERT/DELETE/LOAD/CLEAR) |
 | `jena_graph` | `get`, `put` (replace), `post` (merge), `delete` — via the Graph Store Protocol |
 | `jena_admin` | `ping`, `server_info`, `stats`, `metrics`, `list_datasets`, `dataset_info`, `create_dataset`, `delete_dataset`, `set_dataset_state`, `list_tasks`, `task_info`, `backup`, `compact` |
 
