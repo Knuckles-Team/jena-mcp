@@ -105,7 +105,6 @@ python -m jena_mcp
         "jena-mcp"
       ],
       "env": {
-        "MCP_TOOL_MODE": "intent",
         "APACHE_JENA_URL": "http://localhost:3030",
         "JENATOOL": "True",
         "JENA_FUSEKI_URL": "http://localhost:3030/ds",
@@ -142,7 +141,6 @@ own runtime secret boundary.
         "TRANSPORT": "streamable-http",
         "HOST": "127.0.0.1",
         "PORT": "8000",
-        "MCP_TOOL_MODE": "intent",
         "APACHE_JENA_URL": "http://localhost:3030",
         "JENATOOL": "True",
         "JENA_FUSEKI_URL": "http://localhost:3030/ds",
@@ -178,7 +176,6 @@ docker run -i --rm \
   --pids-limit=256 \
   --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m \
   -e TRANSPORT=stdio \
-  -e MCP_TOOL_MODE=intent \
   -e APACHE_JENA_URL=http://localhost:3030 \
   -e JENATOOL=True \
   -e JENA_FUSEKI_URL=http://localhost:3030/ds \
@@ -193,7 +190,7 @@ direct server TLS), exact `MCP_ALLOWED_HOSTS`, and an exact trusted-proxy
 CIDR policy through the operator-owned deployment profile. The generator
 does not emit an unauthenticated non-loopback listener.
 
-_Auto-generated from the code-read env surface (`MCP_TOOL_MODE` + package vars) — do not edit._
+_Auto-generated from the code-read env surface (package vars) — do not edit._
 <!-- MCP-CONFIG-EXAMPLES:END -->
 
 <!-- BEGIN GENERATED: additional-deployment-options -->
@@ -222,6 +219,7 @@ the detailed transport contract.
 | `APACHE_JENA_URL` | `http://localhost:3030` | deployed convention; takes precedence |
 | `JENA_FUSEKI_URL` | `http://localhost:3030/ds` |  |
 | `JENA_URL` | `http://localhost:3030` | fallback alias for the base URL |
+| `JENA_DATASET` | — |  |
 | `APACHE_JENA_TOKEN` | secret-injected | deployed convention; takes precedence |
 | `JENA_TOKEN` | secret-injected | fallback alias for the bearer token |
 | `JENA_USERNAME` | `admin` |  |
@@ -237,7 +235,6 @@ the detailed transport contract.
 | `TRANSPORT` | `stdio` | MCP transport: `stdio` \| `streamable-http` \| `sse` |
 | `HOST` | `127.0.0.1` | Loopback bind host (set an authenticated ingress explicitly) |
 | `PORT` | `8000` | Bind port (HTTP transports) |
-| `MCP_TOOL_MODE` | `intent` | Tool surface: `intent` \| `condensed` \| `verbose` \| `both` |
 | `MCP_ENABLED_TOOLS` | — | Comma-separated tool allow-list |
 | `MCP_DISABLED_TOOLS` | — | Comma-separated tool deny-list |
 | `MCP_ENABLED_TAGS` | — | Comma-separated tag allow-list |
@@ -255,11 +252,11 @@ the detailed transport contract.
 | `DEBUG` | `False` | Verbose logging |
 | `PYTHONUNBUFFERED` | `1` | Unbuffered stdout (recommended in containers) |
 | `MCP_URL` | `http://localhost:8000/mcp` | URL of the MCP server the agent connects to |
-| `PROVIDER` | `openai` | LLM provider for the agent |
-| `MODEL_ID` | `gpt-4o` | Model id for the agent |
+| `PROVIDER` | — | Operator-configured LLM provider for the agent |
+| `MODEL_ID` | — | Operator-configured model id for the agent |
 | `ENABLE_WEB_UI` | `True` | Serve the AG-UI web interface |
 
-_10 package + 24 inherited variable(s). Auto-generated from `.env.example` + the shared agent-utilities set — do not edit._
+_11 package + 23 inherited variable(s). Auto-generated from `.env.example` + the shared agent-utilities set — do not edit._
 <!-- ENV-VARS-TABLE:END -->
 
 
@@ -300,44 +297,16 @@ Every variable the server reads, grouped by purpose.
 Auto-generated — do not edit between the markers below.
 <!-- MCP-TOOLS-TABLE:START -->
 
-#### Condensed action-routed tools (default — `MCP_TOOL_MODE=condensed`)
+#### Intent tools
 
-| MCP Tool | Toggle Env Var | Description |
-|----------|----------------|-------------|
-| `jena_admin` | `JENATOOL` | Administer the Fuseki server: datasets, stats, tasks, backup, compact. |
-| `jena_graph` | `JENATOOL` | Read or modify RDF graphs via the Graph Store Protocol. |
-| `jena_sparql` | `JENATOOL` | Execute a SPARQL query or update against a Fuseki dataset. |
+| MCP Tool | Kind | Description |
+|----------|------|-------------|
+| `jena_admin` | intent | Administer the Fuseki server: datasets, stats, tasks, backup, compact. |
+| `jena_graph` | intent | Read or modify RDF graphs via the Graph Store Protocol. |
+| `jena_source_records` | intent | List normalized, read-only SPARQL bindings for governed ingestion. |
+| `jena_sparql` | intent | Execute a SPARQL query or update against a Fuseki dataset. |
 
-#### Verbose 1:1 API-mapped tools (`MCP_TOOL_MODE=verbose` or `both`)
-
-<details>
-<summary>19 per-operation tools — one per public API method (click to expand)</summary>
-
-| MCP Tool | Toggle Env Var | Description |
-|----------|----------------|-------------|
-| `jena_backup` | `JENA_APITOOL` | Trigger an async backup of a dataset; returns a task handle. |
-| `jena_compact` | `JENA_APITOOL` | Trigger an async TDB2 compaction; returns a task handle. |
-| `jena_create_dataset` | `JENA_APITOOL` | Create a dataset. ``db_type`` is one of ``tdb2``, ``tdb``, ``mem``. |
-| `jena_dataset_info` | `JENA_APITOOL` | Detail for a single dataset. |
-| `jena_delete_dataset` | `JENA_APITOOL` | Remove a dataset (and its configuration). |
-| `jena_delete_graph` | `JENA_APITOOL` | Drop a graph (named or default). |
-| `jena_get_graph` | `JENA_APITOOL` | Fetch an RDF graph (named or default) as text. |
-| `jena_list_datasets` | `JENA_APITOOL` | List datasets and their state. |
-| `jena_list_tasks` | `JENA_APITOOL` | List async admin tasks (backup/compact). |
-| `jena_metrics` | `JENA_APITOOL` | Prometheus metrics exposition. |
-| `jena_ping` | `JENA_APITOOL` | Server liveness check. |
-| `jena_post_graph` | `JENA_APITOOL` | Merge the supplied RDF into a graph. |
-| `jena_put_graph` | `JENA_APITOOL` | Replace a graph with the supplied RDF. |
-| `jena_query` | `JENA_APITOOL` | Run a SPARQL read query (SELECT/ASK/CONSTRUCT/DESCRIBE). |
-| `jena_server_info` | `JENA_APITOOL` | Server build info and the list of mounted datasets/services. |
-| `jena_set_dataset_state` | `JENA_APITOOL` | Set a dataset ``active`` (online) or ``offline``. |
-| `jena_stats` | `JENA_APITOOL` | Server-wide or per-dataset request statistics. |
-| `jena_task_info` | `JENA_APITOOL` | Detail for a single async task. |
-| `jena_update` | `JENA_APITOOL` | Run a SPARQL update (INSERT/DELETE/LOAD/CLEAR). |
-
-</details>
-
-_3 action-routed tool(s) (default) · 19 verbose 1:1 tool(s). Each is enabled unless its `<DOMAIN>TOOL` toggle is set false; `MCP_TOOL_MODE` selects the surface (`condensed` default · `verbose` 1:1 · `both`). Auto-generated — do not edit._
+_4 intent tool(s) · 0 operation(s). Call an operation as `act(action='<operation>', params={...})` (`ask` for reads); `find(action='describe', params={'action': '<operation>'})` returns its arguments. An operation is enabled unless its `<DOMAIN>TOOL` toggle is set false. Auto-generated — do not edit._
 <!-- MCP-TOOLS-TABLE:END -->
 
 ## Documentation

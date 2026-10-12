@@ -7,7 +7,6 @@
         "jena-mcp"
       ],
       "env": {
-        "MCP_TOOL_MODE": "intent",
         "APACHE_JENA_URL": "http://localhost:3030",
         "JENATOOL": "True",
         "JENA_FUSEKI_URL": "http://localhost:3030/ds",
