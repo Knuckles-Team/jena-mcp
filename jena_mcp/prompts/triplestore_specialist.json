@@ -4,7 +4,7 @@
   "schema_version": "1.0",
   "prompt_version": "0.1.0",
   "source": "jena-mcp",
-  "extends": "agent-utilities:base",
+  "extends": "agent-connector-sdk:base",
   "compose": "append",
   "description": "Apache Jena (Fuseki) triplestore specialist: SPARQL query/update, Graph Store Protocol, and server administration over the jena-mcp MCP server.",
   "metadata": {

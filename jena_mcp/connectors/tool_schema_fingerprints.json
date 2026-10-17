@@ -1,8 +1,8 @@
 {
-  "algorithm": "agent-utilities:mcp-tool-schema-compat:v1",
+  "algorithm": "agent-connector-sdk:mcp-tool-contract-compat:v2",
   "connector": "jena-mcp",
   "schema_version": "1",
   "tools": {
-    "jena_source_records": "df7e12b7df66d8cddb55a25edec0c9615d0b403a54f68ec9fe48634c5f3ac0fc"
+    "jena_source_records": "88839ed46b789d02d4be0f8f1f4a0a644dc94e6f97df5ce451c8bf446a288846"
   }
 }

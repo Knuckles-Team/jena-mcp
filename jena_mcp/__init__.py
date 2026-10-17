@@ -9,7 +9,6 @@ __all__: list[str] = []
 
 CORE_MODULES = ["jena_mcp.api_client"]
 OPTIONAL_MODULES = {
-    "jena_mcp.agent_server": "agent",
     "jena_mcp.mcp_server": "mcp",
 }
 

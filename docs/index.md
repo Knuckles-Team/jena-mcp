@@ -1,6 +1,6 @@
 # jena-mcp
 
-Apache Jena (Fuseki) **API + MCP Server + A2A Agent** for the agent-utilities
+Apache Jena (Fuseki) **API + MCP Server + A2A Agent** for the agent-connector-sdk
 ecosystem — SPARQL query/update, the Graph Store Protocol, and Fuseki server
 administration exposed as typed, deterministic tools.
 

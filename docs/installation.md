@@ -21,7 +21,7 @@ The base install is intentionally minimal. Install the extra for what the operat
 
 | Extra | Install | Pulls in |
 |---|---|---|
-| `mcp` | `pip install "jena-mcp[mcp]"` | FastMCP MCP-server runtime (`agent-utilities[mcp]`) |
+| `mcp` | `pip install "jena-mcp[mcp]"` | FastMCP MCP-server runtime (`agent-connector-sdk`) |
 | `agent` | `pip install "jena-mcp[agent]"` | Pydantic-AI agent server + Logfire tracing |
 | `all` | `pip install "jena-mcp[all]"` | The MCP server, the agent server, and tracing |
 | `test` | `pip install "jena-mcp[test]"` | `pytest`, `pytest-asyncio`, `pytest-cov`, `pytest-xdist` |
