@@ -79,11 +79,4 @@ jena-mcp --help
 python -m jena_mcp
 ```
 
-The A2A agent server is the `jena-agent` console script:
-
-```bash
-jena-agent --mcp-url http://jena-mcp:8000/mcp --host 0.0.0.0 --port 8001
-```
-
-See [Deployment → Agent server](deployment.md#agent-server) for the full agent
 configuration.

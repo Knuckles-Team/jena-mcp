@@ -22,14 +22,7 @@ The base install is intentionally minimal. Install the extra for what the operat
 | Extra | Install | Pulls in |
 |---|---|---|
 | `mcp` | `pip install "jena-mcp[mcp]"` | FastMCP MCP-server runtime (`agent-connector-sdk`) |
-| `agent` | `pip install "jena-mcp[agent]"` | Pydantic-AI agent server + Logfire tracing |
-| `all` | `pip install "jena-mcp[all]"` | The MCP server, the agent server, and tracing |
 | `test` | `pip install "jena-mcp[test]"` | `pytest`, `pytest-asyncio`, `pytest-cov`, `pytest-xdist` |
-
-```bash
-# Typical: run both the MCP server and the A2A agent server
-pip install "jena-mcp[all]"
-```
 
 ## From source
 
@@ -72,6 +65,5 @@ python -c "import jena_mcp; print(jena_mcp.__version__)"
 
 ## Next steps
 
-- **[Deployment](deployment.md)** — run it as a long-lived MCP server (and agent server) behind Caddy + DNS.
 - **[Usage](usage.md)** — call the tools, the `JenaApi` client, and the CLI.
 - **[Configuration](deployment.md#configuration-environment)** — every environment variable.
