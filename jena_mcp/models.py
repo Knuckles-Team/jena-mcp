@@ -18,6 +18,4 @@ class DatasetSpec(BaseModel):
     """A Fuseki dataset to create or address."""
 
     name: str = Field(description="Dataset name.")
-    db_type: str = Field(
-        default="tdb2", description="Storage type: tdb2, tdb, or mem."
-    )
+    db_type: str = Field(default="tdb2", description="Storage type: tdb2, tdb, or mem.")

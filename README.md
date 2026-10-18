@@ -1,6 +1,5 @@
 # jena-mcp
 
-A Model Context Protocol (MCP) server, A2A agent, and API client for Apache Jena
 (Fuseki) integration.
 
 ![PyPI - Version](https://img.shields.io/pypi/v/jena-mcp)
@@ -25,7 +24,6 @@ A Model Context Protocol (MCP) server, A2A agent, and API client for Apache Jena
 ## Overview
 jena-mcp exposes a standardized interface to interact with an Apache Jena Fuseki
 server using the Model Context Protocol — SPARQL query/update, the Graph Store
-Protocol, and Fuseki server administration — plus an optional Pydantic-AI agent
 server.
 
 ## Installation
@@ -34,8 +32,7 @@ Pick the extra that matches what the operator want to run:
 
 | Extra | Installs | Use when |
 |-------|----------|----------|
-| `jena-mcp[mcp]` | Connector-focused MCP server (`agent-utilities[mcp]` — FastMCP/FastAPI + `epistemic-graph[full]`) | The operator only run the **MCP server** (smallest install / image) |
-| `jena-mcp[agent]` | Agent runtime (`agent-utilities[agent-runtime,logfire]` — model orchestration + `epistemic-graph[full]`) | The operator run the **integrated A2A agent** |
+| `jena-mcp[mcp]` | Connector-focused MCP server (`agent-connector-sdk` — FastMCP/FastAPI + `epistemic-graph[full]`) | The operator only run the **MCP server** (smallest install / image) |
 | `jena-mcp[all]` | Everything (`mcp` + `agent` + `logfire`) | Development / both surfaces |
 
 ```bash
@@ -43,24 +40,21 @@ Pick the extra that matches what the operator want to run:
 uv pip install "jena-mcp[mcp]"
 
 # Agent runtime (adds model orchestration to the shared graph engine)
-uv pip install "jena-mcp[agent]"
 
 # Everything (development)
 uv pip install "jena-mcp[all]"      # or: python -m pip install "jena-mcp[all]"
 ```
 
-### Container images (`:mcp` vs `:agent`)
+### Container images (`:mcp`)
 
-One multi-stage `docker/Dockerfile` builds two right-sized images, selected by `--target`:
+One multi-stage `docker/Dockerfile` builds the MCP-only image (`--target mcp`):
 
 | Image tag | Build target | Contents | Entrypoint |
 |-----------|--------------|----------|------------|
 | `example/jena-mcp:mcp` | `--target mcp` | `jena-mcp[mcp]` — **connector-focused**, includes `epistemic-graph[full]`; no model-orchestration stack | `jena-mcp` |
-| `example/jena-mcp@sha256:<digest>` | `--target agent` (default) | `jena-mcp[agent]` — **agent runtime**, model orchestration + `epistemic-graph[full]` | `jena-agent` |
 
 ```bash
 docker build --target mcp   -t example/jena-mcp:mcp    docker/   # connector-focused MCP server
-docker build --target agent -t example/jena-mcp:agent-local docker/   # agent runtime
 ```
 
 `docker/mcp.compose.yml` runs the connector-focused `:mcp` server; `docker/compose.yml` runs the
@@ -68,9 +62,7 @@ agent (`immutable agent digest`) with a co-located `:mcp` sidecar.
 
 ### Knowledge-graph database (`epistemic-graph`)
 
-Both `[mcp]` and `[agent]` carry the **epistemic-graph** engine through the required
-Agent Utilities core dependency (`epistemic-graph[full]`). The `[mcp]` extra keeps
-the server connector-focused; `[agent]` also enables model orchestration. Local
+Agent Connector SDK core dependency (`epistemic-graph[full]`). The `[mcp]` extra keeps
 deployments can use the bundled engine. For production or shared state, run
 **epistemic-graph as a dedicated database service** and configure the runtime to use it.
 Deployment recipes (single-node + Raft HA), connection configuration, and architecture
@@ -88,7 +80,7 @@ python -m jena_mcp
 <!-- MCP-CONFIG-EXAMPLES:START -->
 
 > **Install the connector-focused `[mcp]` extra.** Examples use `jena-mcp[mcp]` to add
-> FastMCP / FastAPI through `agent-utilities[mcp]`; the required Agent Utilities core
+> FastMCP / FastAPI through `agent-connector-sdk`; the required Agent Connector SDK core
 > still carries `epistemic-graph[full]`. The `[agent-runtime]` extra additionally
 > enables model orchestration.
 
@@ -117,7 +109,7 @@ python -m jena_mcp
 }
 ```
 
-Runtime references require an alias-aware launcher such as GraphOS. Other
+Runtime references require an alias-aware launcher such as Arbora. Other
 launchers must omit those entries and inject the resolved values through their
 own runtime secret boundary.
 
@@ -228,7 +220,7 @@ the detailed transport contract.
 | `JENA_TLS_PROFILE_REF` | — |  |
 | `JENATOOL` | `True` |  |
 
-#### Inherited agent-utilities variables (apply to every connector)
+#### Inherited agent-connector-sdk variables (apply to every connector)
 
 | Variable | Example | Description |
 |----------|---------|-------------|
@@ -254,11 +246,9 @@ the detailed transport contract.
 | `MCP_URL` | `http://localhost:8000/mcp` | URL of the MCP server the agent connects to |
 | `PROVIDER` | — | Operator-configured LLM provider for the agent |
 | `MODEL_ID` | — | Operator-configured model id for the agent |
-| `ENABLE_WEB_UI` | `True` | Serve the AG-UI web interface |
 
-_11 package + 23 inherited variable(s). Auto-generated from `.env.example` + the shared agent-utilities set — do not edit._
+_11 package + 23 inherited variable(s). Auto-generated from `.env.example` + the shared agent-connector-sdk set — do not edit._
 <!-- ENV-VARS-TABLE:END -->
-
 
 Every variable the server reads, grouped by purpose.
 
@@ -318,37 +308,33 @@ recommended reference for installation, deployment, and day-to-day operation.
 | Page | Contents |
 |---|---|
 | [Installation](https://knuckles-team.github.io/jena-mcp/installation/) | pip, source, extras, prebuilt Docker image |
-| [Deployment](https://knuckles-team.github.io/jena-mcp/deployment/) | run the MCP and agent servers, Compose, Caddy + Technitium, env config |
 | [Usage](https://knuckles-team.github.io/jena-mcp/usage/) | the MCP tools, the `JenaApi` client, the CLI |
 | [Backing Platform](https://knuckles-team.github.io/jena-mcp/platform/) | deploy Apache Jena Fuseki with Docker |
 | [Overview](https://knuckles-team.github.io/jena-mcp/overview/) | tool surface, endpoints, components |
-| [Architecture](https://knuckles-team.github.io/jena-mcp/architecture/) | layered client, MCP surface, agent server |
 | [Concepts](https://knuckles-team.github.io/jena-mcp/concepts/) | concept registry (`CONCEPT:JENA-*`) |
 
 `AGENTS.md` is the canonical contributor/agent guidance.
 
+<!-- BEGIN agent-connector-sdk-deployment (generated; do not edit between markers) -->
 
-<!-- BEGIN agent-utilities-deployment (generated; do not edit between markers) -->
+## Deploy with `agent-connector-sdk-deployment`
 
-## Deploy with `agent-utilities-deployment`
-
-Provision this package with the consolidated **`agent-utilities-deployment`**
+Provision this package with the consolidated **`agent-connector-sdk-deployment`**
 workflow. It selects an installed-package, editable-source, or immutable-container
 path; records only runtime secret and TLS-profile references in `AgentConfig`; and
 runs doctor, registration, policy, observability, and rollback gates. Ask your agent
-to **"deploy `jena-mcp` with agent-utilities-deployment"**.
+to **"deploy `jena-mcp` with agent-connector-sdk-deployment"**.
 
 | Install mode | Command |
 |------|---------|
 | Installed package | `uv tool install "jena-mcp[mcp]"`, then run `jena-mcp` |
-| Editable source | `uv pip install -e ".[agent]"`, then run `jena-mcp` |
 | Immutable container | deploy `registry.example.invalid/jena-mcp@sha256:<digest>` through the operator-selected orchestrator |
 
 The repository embeds no deployment profile, credential value, certificate path, or
 environment-specific endpoint. Supply those at runtime through `AgentConfig` and the
 configured secret provider.
 
-<!-- END agent-utilities-deployment -->
+<!-- END agent-connector-sdk-deployment -->
 
 <!-- GOVERNED-CAPABILITY:START -->
 ## Governed capability contract
@@ -363,5 +349,5 @@ historical per-task skill wrappers.
 Runtime endpoints, credentials, certificate trust, tenant identity, retention,
 and observability policy are deployment inputs and are never packaged values.
 See [Configuration, trust, and privacy](docs/configuration.md) before enabling a
-network transport, connector ingestion, GraphOS delegation, or trace export.
+network transport, connector ingestion, Arbora delegation, or trace export.
 <!-- GOVERNED-CAPABILITY:END -->

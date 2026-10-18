@@ -67,12 +67,6 @@ Compose stack, putting it behind a Caddy reverse proxy, and giving it a DNS name
 Technitium. To provision the **Apache Jena Fuseki** server it connects to, see
 [Backing Platform](platform.md).
 
-> `jena-mcp` ships **both** an MCP server (console script `jena-mcp`) and an A2A
-> agent server (console script `jena-agent`). The MCP server is the typed,
-> deterministic tool surface a policy router / agent calls; the agent server runs
-> graph-orchestrated workflows over that same surface. The agent server is
-> documented in [Agent server](#agent-server) below.
-
 ## Run the MCP server
 
 The transport is selected with `--transport` (or the `TRANSPORT` env var):
@@ -225,25 +219,14 @@ Add to the operator's client's `mcp_config.json`:
 
 For a remote HTTP server, point the client at `http://jena-mcp.example.invalid/mcp` instead.
 
-## Agent server
-
-`jena-mcp` also ships a Pydantic-AI **A2A agent server** (console script
-`jena-agent`) that runs graph-orchestrated workflows over the MCP tool surface. The
-agent connects to a running MCP server via `--mcp-url` (or a bundled
-`mcp_config.json`) and exposes its own HTTP endpoint.
-
-```bash
 # Point the agent at a running MCP server and serve it on :8001
-jena-agent --mcp-url http://jena-mcp:8000/mcp --host 0.0.0.0 --port 8001
 ```
 
 The repo ships
-[`docker/agent.compose.yml`](https://github.com/Knuckles-Team/jena-mcp/blob/main/docker/agent.compose.yml)
 to run the agent alongside the MCP server:
 
 ```yaml
 services:
-  jena-agent:
     image: example/jena-mcp@sha256:<digest>
     container_name: jena-agent
     hostname: jena-agent
@@ -261,8 +244,3 @@ services:
 ```
 
 ```bash
-docker compose -f docker/agent.compose.yml up -d
-```
-
-The agent's capabilities are declared in
-[`a2a.json`](https://github.com/Knuckles-Team/jena-mcp/blob/main/a2a.json).

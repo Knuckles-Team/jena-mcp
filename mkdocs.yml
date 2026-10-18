@@ -1,5 +1,4 @@
 site_name: "jena-mcp"
-site_description: "Apache Jena (Fuseki) API + MCP Server + A2A Agent — SPARQL, the Graph Store Protocol, and Fuseki administration for the agent-utilities ecosystem."
 site_url: "https://knuckles-team.github.io/jena-mcp/"
 repo_name: "Knuckles-Team/jena-mcp"
 repo_url: "https://github.com/Knuckles-Team/jena-mcp"

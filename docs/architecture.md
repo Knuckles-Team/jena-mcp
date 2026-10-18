@@ -1,23 +1,11 @@
 # Architecture — jena-mcp
 
 `jena-mcp` is a thin, layered connector: a typed REST client at the base, MCP tool
-wrappers above it, and an optional A2A agent server that orchestrates the same tools.
 
 ## Layers
 
-```mermaid
-flowchart TD
-    A["MCP client / policy router"] -->|MCP tools| B["jena_mcp.mcp.mcp_jena<br/>register_jena_tools"]
-    G["jena-agent (A2A)"] -->|MCP over HTTP| B
-    B --> C["JenaApi / Api<br/>jena_mcp.api"]
-    C -->|requests| D["Apache Jena Fuseki<br/>:3030"]
-    E["get_client()<br/>jena_mcp.auth"] --> C
-    F["JENA_* environment"] --> E
-```
-
 ## Request flow
 
-1. An MCP client (or the `jena-agent` A2A server) invokes one of the three
    action-dispatch tools: `jena_sparql`, `jena_graph`, or `jena_admin`.
 2. The tool wrapper resolves a `JenaApi` via `get_client()`, which reads the
    `JENA_*` environment variables, then dispatches the requested action to the

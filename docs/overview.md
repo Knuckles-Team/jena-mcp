@@ -1,6 +1,5 @@
 # Overview — jena-mcp
 
-`jena-mcp` is the **API + MCP server + A2A agent** for an Apache Jena **Fuseki**
 server. It exposes three protocols through one connector: the SPARQL Protocol, the
 Graph Store Protocol (GSP), and the Fuseki administration API.
 
@@ -24,7 +23,6 @@ lives in the API layer; the MCP wrappers add none.
   (`jena_mcp/api_client.py`).
 - **MCP tools** (`jena_mcp/mcp/mcp_jena.py`) — thin FastMCP wrappers registered by
   `register_jena_tools`.
-- **Agent server** (`jena_mcp/agent_server.py`) — a Pydantic-AI A2A agent
   (`jena-agent`) that runs graph-orchestrated workflows over the tool surface.
 - **`get_client`** (`jena_mcp/auth.py`) — builds a `JenaApi` from `JENA_*`
   environment variables.
