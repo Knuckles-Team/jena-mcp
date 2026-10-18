@@ -56,9 +56,23 @@ actions:
   description: 'Answers epistemic_status/why/what_changed queries over the shared knowledge graph: calibrated
     confidence, evidence/source citations, belief justification trees, bitemporal valid/tx history, and
     policy-redaction-aware provenance.'
+  label: ''
+  parameters: []
+  target_resource: null
+  conflict_policy: null
+  requires_approval: true
+  approval_class: unclassified
+  effects: []
 - id: run_graph_flow
   name: Graph Flow Execution
   description: Execute a workflow through the agent's graph orchestration engine
+  label: ''
+  parameters: []
+  target_resource: null
+  conflict_policy: null
+  requires_approval: true
+  approval_class: unclassified
+  effects: []
 events: []
 identity:
   id_field:
@@ -188,20 +202,20 @@ sync:
     doc_type: rdf-resource
 provenance:
   generated_by: scripts/generate_connector_manifests.py
-  generated_at: '2026-08-21T04:30:39Z'
+  generated_at: '2026-10-18T00:00:00Z'
   source_artifacts:
   - jena_mcp/connectors/mcp_source_presets.json
   - jena_mcp/connectors/tool_schema_fingerprints.json
   - jena_mcp/ontology/jena.ttl
   integrity:
     algorithm: urdna2015-sha256
-    hash: d031b6277e07536930ce3ebb4d5f8790afccd90aeabbe148ac2d8634e896adc2
+    hash: 8701815452ea4ea608275fe021a3bfe59148a7c694cdd5291f84de6c3e950b94
     triple_count: 79
   signer: UNSIGNED-PREVIEW
   signature_algorithm: none
   signing_public_key: ''
   signature: null
-  dependency_lock_digest: d9a7a8eafa985d82a117af04bd873825c6ee2cae172ea813fdad13e2db9df1fd
+  source_commit: d0918114db631a42dc1db875a99bba8bfabe5363
 policy:
   pii_fields: {}
   tenant_boundary: null

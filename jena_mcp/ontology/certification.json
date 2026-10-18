@@ -1,9 +1,9 @@
 {
   "api_version": "arbora.io/v1",
   "artifacts": {
-    "connector_manifest.yml": "ad4ab8733e8c9f9b755fe49b7c7ed1e74d028c37777ec505d0b546cb198403e5",
+    "connector_manifest.yml": "ed763823c72e4a99c297f98e9647a0430ee924623c9efd6697cb39dfd5c68faf",
     "jena_mcp/connectors/mcp_source_presets.json": "a657e81018ea144ded4f0bd4773d09b0fe65ae68cf323383309a20341a33ac5f",
-    "jena_mcp/connectors/tool_schema_fingerprints.json": "ed25d7da294ad92dcbb641a5f91803e63456af95896170e644992f383cb778d3",
+    "jena_mcp/connectors/tool_schema_fingerprints.json": "1a9efb7b22642e519c29c816bfe3a6229648e320fd2ec07f61b9f9d951d67b39",
     "jena_mcp/ontology/fixtures/records.json": "fac212bf141339cf5879c91615ee04bb701216c710090df2e61df3a4a8d20a7c",
     "jena_mcp/ontology/jena.ttl": "0cf2a26e8609ba1b11e87058e242235bb9680b6f1c49f0becc691f09e881bc5e",
     "jena_mcp/ontology/mappings/source.yaml": "53ab3e03157a016aa0bfdd8466f8097b7d1987b3d9d3648e503b05c77d75eb21",
