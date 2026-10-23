@@ -2,7 +2,7 @@
 
 from jena_mcp.api.api_client_jena import JenaApi
 
-__version__ = "2.4.2"
+__version__ = "2.4.3"
 
 
 class Api(JenaApi):
