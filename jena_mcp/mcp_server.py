@@ -14,7 +14,7 @@ from jena_mcp.api_client import Api
 from jena_mcp.auth import get_client
 from jena_mcp.mcp.mcp_jena import register_jena_tools  # noqa: F401
 
-__version__ = "2.4.1"
+__version__ = "2.4.2"
 logger = get_logger(name="jena_mcp")
 
 
