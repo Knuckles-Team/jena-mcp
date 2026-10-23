@@ -152,5 +152,4 @@
     rdfs:comment """Apache Jena Fuseki triplestore topology and admin model — servers,
     datasets, RDF graphs, SPARQL/GSP endpoints, SPARQL operations, and the async admin
     tasks (backup, compaction) that maintain them — federated into the agent-connector-sdk
-    knowledge-graph hub.""" ;
-    owl:imports <http://knuckles.team/kg> .
+    knowledge-graph hub.""" .
