@@ -37,6 +37,10 @@ jena-mcp = "jena_mcp.prompts"
 [project.entry-points."agent_connector_sdk.source_connector_providers"]
 jena-mcp = "jena_mcp.connectors"
 
+# The one declared connector identity: the fleet name (SDK-CONNECTOR-CONTROL-R071).
+[project.entry-points."agent_connector_sdk.connector"]
+jena-mcp = "jena_mcp"
+
 [tool.uv.workspace]
 members = ["."]
 
