@@ -7,9 +7,6 @@ Served live as ``connector://resources``. Regenerate by editing the declarations
 from __future__ import annotations
 
 from agent_connector_sdk.ingest.live_declaration import source_meta
-from agent_connector_sdk.ingest.sources import IngestSourceDeclaration, IngestSourceSpec
-
-CONNECTOR = "jena-mcp"
 
 SOURCES = (
     source_meta(
@@ -28,110 +25,50 @@ SOURCES = (
     ),
 )
 
+SCHEMA_VERSION = 2
+
+FIELD_SETS = {
+    "fields_1": {
+        "datasetName": "xsd:string",
+        "datasetState": "xsd:string",
+        "endpointKind": "xsd:string",
+        "graphUri": "xsd:string",
+        "operationForm": "xsd:string",
+        "queryText": "xsd:string",
+        "storageType": "xsd:string",
+        "taskId": "xsd:string",
+        "taskState": "xsd:string",
+        "tripleCount": "xsd:integer",
+    },
+}
+
 SCHEMA_MAPPINGS = {
     "AdminTask": {
-        "fields": {
-            "datasetName": "xsd:string",
-            "datasetState": "xsd:string",
-            "endpointKind": "xsd:string",
-            "graphUri": "xsd:string",
-            "operationForm": "xsd:string",
-            "queryText": "xsd:string",
-            "storageType": "xsd:string",
-            "taskId": "xsd:string",
-            "taskState": "xsd:string",
-            "tripleCount": "xsd:integer",
-        },
+        "field_sets": ["fields_1"],
         "ontology_class": "Action",
     },
     "DatasetBackup": {
-        "fields": {
-            "datasetName": "xsd:string",
-            "datasetState": "xsd:string",
-            "endpointKind": "xsd:string",
-            "graphUri": "xsd:string",
-            "operationForm": "xsd:string",
-            "queryText": "xsd:string",
-            "storageType": "xsd:string",
-            "taskId": "xsd:string",
-            "taskState": "xsd:string",
-            "tripleCount": "xsd:integer",
-        },
+        "field_sets": ["fields_1"],
         "ontology_class": "Dataset",
     },
     "FusekiServer": {
-        "fields": {
-            "datasetName": "xsd:string",
-            "datasetState": "xsd:string",
-            "endpointKind": "xsd:string",
-            "graphUri": "xsd:string",
-            "operationForm": "xsd:string",
-            "queryText": "xsd:string",
-            "storageType": "xsd:string",
-            "taskId": "xsd:string",
-            "taskState": "xsd:string",
-            "tripleCount": "xsd:integer",
-        },
+        "field_sets": ["fields_1"],
         "ontology_class": "Server",
     },
     "JenaDataset": {
-        "fields": {
-            "datasetName": "xsd:string",
-            "datasetState": "xsd:string",
-            "endpointKind": "xsd:string",
-            "graphUri": "xsd:string",
-            "operationForm": "xsd:string",
-            "queryText": "xsd:string",
-            "storageType": "xsd:string",
-            "taskId": "xsd:string",
-            "taskState": "xsd:string",
-            "tripleCount": "xsd:integer",
-        },
+        "field_sets": ["fields_1"],
         "ontology_class": "Dataset",
     },
     "RdfGraph": {
-        "fields": {
-            "datasetName": "xsd:string",
-            "datasetState": "xsd:string",
-            "endpointKind": "xsd:string",
-            "graphUri": "xsd:string",
-            "operationForm": "xsd:string",
-            "queryText": "xsd:string",
-            "storageType": "xsd:string",
-            "taskId": "xsd:string",
-            "taskState": "xsd:string",
-            "tripleCount": "xsd:integer",
-        },
+        "field_sets": ["fields_1"],
         "ontology_class": None,
     },
     "SparqlEndpoint": {
-        "fields": {
-            "datasetName": "xsd:string",
-            "datasetState": "xsd:string",
-            "endpointKind": "xsd:string",
-            "graphUri": "xsd:string",
-            "operationForm": "xsd:string",
-            "queryText": "xsd:string",
-            "storageType": "xsd:string",
-            "taskId": "xsd:string",
-            "taskState": "xsd:string",
-            "tripleCount": "xsd:integer",
-        },
+        "field_sets": ["fields_1"],
         "ontology_class": None,
     },
     "SparqlOperation": {
-        "fields": {
-            "datasetName": "xsd:string",
-            "datasetState": "xsd:string",
-            "endpointKind": "xsd:string",
-            "graphUri": "xsd:string",
-            "operationForm": "xsd:string",
-            "queryText": "xsd:string",
-            "storageType": "xsd:string",
-            "taskId": "xsd:string",
-            "taskState": "xsd:string",
-            "tripleCount": "xsd:integer",
-        },
+        "field_sets": ["fields_1"],
         "ontology_class": None,
     },
 }
@@ -173,20 +110,3 @@ RESOURCES = (
         "name": "SparqlOperation",
     },
 )
-
-
-def declaration() -> IngestSourceDeclaration:
-    """The declaration the server assembles from this module."""
-    specs = []
-    for item in SOURCES:
-        for entry in item["connector_sources"]:
-            body = {k: v for k, v in entry.items() if k not in ("tool", "mapping")}
-            specs.append(IngestSourceSpec.model_validate({**body, "tools": (entry["tool"],)}))
-    return IngestSourceDeclaration.model_validate(
-        {
-            "connector": CONNECTOR,
-            "sources": specs,
-            "schema_mappings": SCHEMA_MAPPINGS,
-            "resources": RESOURCES,
-        }
-    )
