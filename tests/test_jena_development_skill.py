@@ -32,3 +32,7 @@ def test_development_skill_binds_jena_contract_and_package_data() -> None:
     assert SKILL.is_file()
     assert not re.search(r"(?:sk-|ghp_|Bearer\s+)[A-Za-z0-9_./-]{12,}", text)
     assert data["project"]["name"] == "jena-mcp"
+
+
+def test_legacy_mkdocs_publisher_is_absent() -> None:
+    assert not (ROOT / ".github/workflows/docs.yml").exists()
