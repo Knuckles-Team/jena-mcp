@@ -151,5 +151,5 @@
     rdfs:label "Apache Jena (Fuseki) Ontology" ;
     rdfs:comment """Apache Jena Fuseki triplestore topology and admin model — servers,
     datasets, RDF graphs, SPARQL/GSP endpoints, SPARQL operations, and the async admin
-    tasks (backup, compaction) that maintain them — federated into the agent-connector-sdk
+    tasks (backup, compaction) that maintain them — federated into the scion-sdk
     knowledge-graph hub.""" .

@@ -11,7 +11,7 @@ description: >-
 license: MIT
 tags: [jena, fuseki, gsp, graph-store, rdf, mcp]
 metadata:
-  author: Genius
+  author: Knuckles-Team
   version: '0.1.0'
 ---
 # Jena Graph Store (GSP)

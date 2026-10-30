@@ -9,7 +9,7 @@ description: >-
 license: MIT
 tags: [jena, fuseki, mcp, connector, development, delivery]
 metadata:
-  author: Genius
+  author: Knuckles-Team
   version: '0.1.0'
 ---
 

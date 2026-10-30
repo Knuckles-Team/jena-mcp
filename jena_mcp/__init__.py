@@ -1,6 +1,6 @@
 """jena-mcp: Apache Jena (Fuseki) API + MCP Server + A2A Server."""
 
-from agent_connector_sdk.connector import Connector
+from scion_sdk.connector import Connector
 
 from jena_mcp.api_client import Api
 from jena_mcp.auth import get_client
