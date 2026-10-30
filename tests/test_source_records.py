@@ -22,10 +22,7 @@ def test_sparql_bindings_become_bounded_source_records() -> None:
         {
             "source_key": "urn:fixture:resource",
             "title": "Fixture resource",
-            "text": (
-                '{"label": "Fixture resource", '
-                '"s": "urn:fixture:resource"}'
-            ),
+            "text": ('{"label": "Fixture resource", "s": "urn:fixture:resource"}'),
             "bindings": {
                 "s": "urn:fixture:resource",
                 "label": "Fixture resource",

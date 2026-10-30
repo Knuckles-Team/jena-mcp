@@ -14,7 +14,7 @@
 
 ## Functional Requirements
 
-- **FR-001**: Minor update: agent-connector-sdk 0.2.40 (installed) -> 0.16.0
+- **FR-001**: Minor update: scion-sdk 0.2.40 (installed) -> 0.16.0
 - **FR-002**: Moderate avg cyclomatic complexity: 7.1
 - **FR-003**: Low test-to-source ratio: 0.15
 - **FR-004**: Test suite lacks intent diversity (only one type)
@@ -36,7 +36,7 @@
 - **FR-020**: Partial env var documentation: 33% coverage
 - **FR-021**: Undocumented env vars: APACHE_JENA_TOKEN, APACHE_JENA_URL, LLM_API_KEY, LLM_BASE_URL, MCP_URL, MODEL_ID
 - **FR-022**: 4 Python env vars not in .env.example: LLM_API_KEY, LLM_BASE_URL, MCP_URL, MODEL_ID
-- **FR-023**: Check skipped: required agent-connector-sdk/networkx dependencies not found.
+- **FR-023**: Check skipped: required scion-sdk/networkx dependencies not found.
 
 ## Success Criteria
 
