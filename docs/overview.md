@@ -9,9 +9,9 @@ The MCP server registers three action-dispatch tools:
 
 | Tool | Tag | Actions |
 |---|---|---|
-| `jena_sparql` | `sparql` | `query`, `update` |
-| `jena_graph` | `data` | `get`, `put`, `post`, `delete` |
-| `jena_admin` | `admin` | `ping`, `server_info`, `stats`, `metrics`, `list_datasets`, `dataset_info`, `create_dataset`, `delete_dataset`, `set_dataset_state`, `list_tasks`, `task_info`, `backup`, `compact` |
+| `jena_query`, `jena_update` | `sparql` | SPARQL query and update |
+| `jena_get_graph`, `jena_put_graph`, `jena_post_graph`, `jena_delete_graph` | `data` | Graph Store Protocol |
+| `jena_ping`, `jena_list_datasets`, `jena_create_dataset`, ... | `admin` | server administration |
 
 Each tool dispatches to a method on the **`JenaApi`** client. All business logic
 lives in the API layer; the MCP wrappers add none.
@@ -31,10 +31,10 @@ lives in the API layer; the MCP wrappers add none.
 
 | Protocol | Path | Used by |
 |---|---|---|
-| SPARQL query | `POST {dataset}/sparql` | `jena_sparql` (`query`) |
-| SPARQL update | `POST {dataset}/update` | `jena_sparql` (`update`) |
-| Graph Store | `{dataset}/data` | `jena_graph` |
-| Administration | `/$/datasets`, `/$/stats`, `/$/ping`, `/$/tasks`, … | `jena_admin` |
+| SPARQL query | `POST {dataset}/sparql` | `jena_query` |
+| SPARQL update | `POST {dataset}/update` | `jena_update` |
+| Graph Store | `{dataset}/data` | `jena_get_graph`, `jena_put_graph`, `jena_post_graph`, `jena_delete_graph` |
+| Administration | `/$/datasets`, `/$/stats`, `/$/ping`, `/$/tasks`, … | the `jena_*` admin tools |
 
 See [Usage](usage.md) for examples and [Deployment](deployment.md) for the
 environment configuration.

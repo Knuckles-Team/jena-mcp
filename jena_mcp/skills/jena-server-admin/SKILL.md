@@ -3,7 +3,7 @@ name: jena-server-admin
 skill_type: skill
 description: >-
   Administer an Apache Jena Fuseki server via the jena-mcp MCP server's admin
-  tool (jena_admin) — dataset lifecycle (create/list/info/delete/set-state),
+  tools (jena_list_datasets, jena_create_dataset, ...) — dataset lifecycle (create/list/info/delete/set-state),
   server info, request stats, Prometheus metrics, async tasks, and TDB2 backup /
   compaction. Use when the agent must provision or take a dataset offline, check
   server health/stats, or run and track a backup or compaction. Do NOT use to run
@@ -18,7 +18,7 @@ metadata:
 # Jena Server Admin
 
 Operational control of an Apache Jena **Fuseki** server via its admin API
-(`/$/…`), exposed by the single `jena_admin` tool. Covers dataset provisioning,
+(`/$/…`), exposed as one typed tool per operation. Covers dataset provisioning,
 health/stats, and the two long-running maintenance tasks (backup, TDB2
 compaction).
 
@@ -44,48 +44,33 @@ endpoints may require credentials even when the data endpoints are open.
 | `JENA_USERNAME` / `JENA_PASSWORD` | optional | Basic auth (often required for `/$/`) |
 | `JENA_SSL_VERIFY` | optional | TLS verification toggle |
 
-## Tools & actions
-The `jena_admin` tool takes an `action` plus `params_json` (a **JSON string**).
+## Tools
+One typed tool per Fuseki admin operation.
 
-| Action | `params_json` keys |
-|--------|--------------------|
-| `ping` / `server_info` / `metrics` / `list_datasets` / `list_tasks` | — |
-| `stats` | `dataset` (optional; omit for server-wide) |
-| `dataset_info` | `name` |
-| `create_dataset` | `name`, `db_type` (`tdb2` default, `tdb`, `mem`) |
-| `delete_dataset` | `name` |
-| `set_dataset_state` | `name`, `state` (`active` / `offline`) |
-| `task_info` | `task_id` |
-| `backup` | `dataset` |
-| `compact` | `dataset`, `delete_old` (bool, default false) |
+| Tool | Arguments |
+|------|-----------|
+| `jena_ping`, `jena_server_info`, `jena_metrics`, `jena_list_datasets`, `jena_list_tasks` | none |
+| `jena_stats` | `dataset` (optional; omit for server-wide) |
+| `jena_dataset_info` | `name` |
+| `jena_create_dataset` | `name`, `db_type` (`tdb2` default, `tdb`, `mem`) |
+| `jena_delete_dataset` | `name`, `confirm` |
+| `jena_set_dataset_state` | `name`, `state` (`active` / `offline`) |
+| `jena_task_info` | `task_id` |
+| `jena_backup` | `dataset` |
+| `jena_compact` | `dataset`, `delete_old` (bool, default false) |
 
-## Recipes (`params_json`)
-Create a durable TDB2 dataset:
-```json
-{"name": "ds", "db_type": "tdb2"}
-```
-Take a dataset offline before maintenance:
-```json
-{"name": "ds", "state": "offline"}
-```
-Per-dataset request stats:
-```json
-{"dataset": "ds"}
-```
-Trigger a backup, then poll the returned task:
-```json
-{"dataset": "ds"}
-```
-```json
-{"task_id": "1"}
-```
-Compact TDB2 and reclaim old files:
-```json
-{"dataset": "ds", "delete_old": true}
-```
+## Recipes
+Create a durable TDB2 dataset: `jena_create_dataset` with `name="ds"`, `db_type="tdb2"`.
+
+Take a dataset offline before maintenance: `jena_set_dataset_state` with `name="ds"`, `state="offline"`.
+
+Per-dataset request stats: `jena_stats` with `dataset="ds"`.
+
+Trigger a backup, then poll the returned task: `jena_backup` with `dataset="ds"`, then `jena_task_info` with `task_id="1"`.
+
+Compact TDB2 and reclaim old files: `jena_compact` with `dataset="ds"`, `delete_old=true`.
 
 ## Gotchas
-- `params_json` is a **string** of JSON, not an object — serialize it.
 - `backup` and `compact` are **asynchronous**: they return a task handle; poll
   `task_info`/`list_tasks` for `finished` before assuming completion.
 - `compact` applies to **tdb2** datasets only; `mem` datasets are non-durable and

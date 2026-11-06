@@ -26,8 +26,7 @@ the source declarations describe ingestion metadata.
    the requirement ID in the commit trailer.
 2. Inspect the relevant source seam before editing:
    `jena_mcp/api/api_client_jena.py` owns Fuseki requests,
-   `jena_mcp/mcp/mcp_jena.py` owns the typed `jena_sparql`, `jena_graph`,
-   `jena_admin`, and `jena_source_records` tools, and
+   `jena_mcp/mcp/mcp_jena.py` owns the `jena_source_records` tool (every client operation is served as its own typed tool), and
    `jena_mcp/connector_sources.py` owns source metadata.
 3. Reuse the existing skills and workflow catalog for provider-specific
    procedures. Keep Graph Store, SPARQL, and server administration concerns in

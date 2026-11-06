@@ -3,7 +3,7 @@ name: jena-graph-store
 skill_type: skill
 description: >-
   Read, replace, merge, or drop whole RDF graphs in an Apache Jena Fuseki dataset
-  via the jena-mcp MCP server's Graph Store Protocol tool (jena_graph). Use when
+  via the jena-mcp MCP server's Graph Store Protocol tools (jena_get_graph, jena_put_graph, jena_post_graph, jena_delete_graph). Use when
   the agent must export a named/default graph as RDF, bulk-load an RDF document,
   merge triples into a graph, or delete a graph outright. Do NOT use for
   fine-grained SELECT/UPDATE by pattern (use jena-sparql-operations) or for
@@ -17,7 +17,7 @@ metadata:
 # Jena Graph Store (GSP)
 
 Whole-graph RDF I/O against an Apache Jena **Fuseki** dataset via the SPARQL
-1.1 **Graph Store Protocol** (`/data`). The `jena_graph` tool addresses a named
+1.1 **Graph Store Protocol** (`/data`). The `jena_get_graph`, `jena_put_graph`, `jena_post_graph` and `jena_delete_graph` tools address a named
 graph URI or the default graph and moves the RDF as a serialized document.
 
 ## When to use
@@ -45,10 +45,13 @@ env as the other jena skills:
 | `JENA_USERNAME` / `JENA_PASSWORD` | optional | Basic auth |
 | `JENA_SSL_VERIFY` | optional | TLS verification toggle |
 
-## Tools & actions
-| Tool | Actions | Key params |
-|------|---------|-----------|
-| `jena_graph` | `get`, `put`, `post`, `delete` | `dataset`, `graph`, `rdf_data`, `content_type`, `accept` |
+## Tools
+| Tool | Key params |
+|------|-----------|
+| `jena_get_graph` | `dataset`, `graph`, `accept` |
+| `jena_put_graph` (replace) | `dataset`, `graph`, `rdf_data`, `content_type` |
+| `jena_post_graph` (merge) | `dataset`, `graph`, `rdf_data`, `content_type` |
+| `jena_delete_graph` | `dataset`, `graph`, `confirm` |
 
 - `dataset` — the Fuseki mount name (e.g. `ds`).
 - `graph` — a named graph URI, or `default` (the literal) / `""` for the default graph.
@@ -59,25 +62,25 @@ env as the other jena skills:
 ## Recipes
 Export the default graph as Turtle:
 ```
-action=get dataset=ds graph=default accept=text/turtle
+jena_get_graph dataset=ds graph=default accept=text/turtle
 ```
 Export a named graph as N-Triples:
 ```
-action=get dataset=ds graph=http://example.org/g1 accept=application/n-triples
+jena_get_graph dataset=ds graph=http://example.org/g1 accept=application/n-triples
 ```
 Replace a named graph with new Turtle (destructive):
 ```
-action=put dataset=ds graph=http://example.org/g1 content_type=text/turtle
+jena_put_graph dataset=ds graph=http://example.org/g1 content_type=text/turtle
 rdf_data="@prefix : <http://knuckles.team/kg#> . :s :p :o ."
 ```
 Merge triples into the default graph (additive):
 ```
-action=post dataset=ds graph=default content_type=text/turtle
+jena_post_graph dataset=ds graph=default content_type=text/turtle
 rdf_data="@prefix : <http://knuckles.team/kg#> . :s2 :p :o2 ."
 ```
 Drop a named graph:
 ```
-action=delete dataset=ds graph=http://example.org/g1
+jena_delete_graph dataset=ds graph=http://example.org/g1
 ```
 
 ## Gotchas

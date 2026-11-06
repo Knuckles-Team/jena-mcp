@@ -287,16 +287,15 @@ Every variable the server reads, grouped by purpose.
 Auto-generated — do not edit between the markers below.
 <!-- MCP-TOOLS-TABLE:START -->
 
-#### Intent tools
+#### Tools
 
-| MCP Tool | Kind | Description |
-|----------|------|-------------|
-| `jena_admin` | intent | Administer the Fuseki server: datasets, stats, tasks, backup, compact. |
-| `jena_graph` | intent | Read or modify RDF graphs via the Graph Store Protocol. |
-| `jena_source_records` | intent | List normalized, read-only SPARQL bindings for governed ingestion. |
-| `jena_sparql` | intent | Execute a SPARQL query or update against a Fuseki dataset. |
+| MCP Tool | Description |
+|----------|-------------|
+| `jena_query`, `jena_update` | SPARQL query and update against a Fuseki dataset. |
+| `jena_get_graph`, `jena_put_graph`, `jena_post_graph`, `jena_delete_graph` | Graph Store Protocol read, replace, merge and delete. |
+| `jena_ping`, `jena_server_info`, `jena_stats`, `jena_metrics`, `jena_list_datasets`, `jena_dataset_info`, `jena_create_dataset`, `jena_delete_dataset`, `jena_set_dataset_state`, `jena_list_tasks`, `jena_task_info`, `jena_backup`, `jena_compact` | Fuseki server administration. |
+| `jena_source_records` | List normalized, read-only SPARQL bindings for governed ingestion. |
 
-_4 intent tool(s) · 0 operation(s). Call an operation as `act(action='<operation>', params={...})` (`ask` for reads); `find(action='describe', params={'action': '<operation>'})` returns its arguments. An operation is enabled unless its `<DOMAIN>TOOL` toggle is set false. Auto-generated — do not edit._
 <!-- MCP-TOOLS-TABLE:END -->
 
 ## Documentation
