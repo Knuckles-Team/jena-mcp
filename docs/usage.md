@@ -6,20 +6,20 @@ surface is summarized in [Overview](overview.md).
 
 ## As an MCP server
 
-Once [deployed](deployment.md), the server registers three action-dispatch tools
+Once [deployed](deployment.md), the server registers one typed tool per operation
 that cover the SPARQL Protocol, the Graph Store Protocol, and Fuseki administration:
 
-| Tool | Actions |
+| Tool | Purpose |
 |---|---|
-| `jena_sparql` | `query` (SELECT/ASK/Build/DESCRIBE), `update` (INSERT/DELETE/LOAD/CLEAR) |
-| `jena_graph` | `get`, `put` (replace), `post` (merge), `delete` — via the Graph Store Protocol |
-| `jena_admin` | `ping`, `server_info`, `stats`, `metrics`, `list_datasets`, `dataset_info`, `create_dataset`, `delete_dataset`, `set_dataset_state`, `list_tasks`, `task_info`, `backup`, `compact` |
+| `jena_query` / `jena_update` | SPARQL SELECT/ASK/CONSTRUCT/DESCRIBE and INSERT/DELETE/LOAD/CLEAR |
+| `jena_get_graph` / `jena_put_graph` / `jena_post_graph` / `jena_delete_graph` | Graph Store Protocol: read, replace, merge, delete |
+| `jena_ping`, `jena_server_info`, `jena_stats`, `jena_metrics`, `jena_list_datasets`, `jena_dataset_info`, `jena_create_dataset`, `jena_delete_dataset`, `jena_set_dataset_state`, `jena_list_tasks`, `jena_task_info`, `jena_backup`, `jena_compact` | server administration |
 
 Example agent prompts that map onto these tools:
 
-- *"List the datasets on the Fuseki server"* → `jena_admin` (`list_datasets`)
-- *"Run this SELECT query against dataset `ds`"* → `jena_sparql` (`query`)
-- *"Load this Turtle into the default graph of `ds`"* → `jena_graph` (`post`)
+- *"List the datasets on the Fuseki server"* → `jena_list_datasets`
+- *"Run this SELECT query against dataset `ds`"* → `jena_query`
+- *"Load this Turtle into the default graph of `ds`"* → `jena_post_graph`
 
 ## As a Python API
 

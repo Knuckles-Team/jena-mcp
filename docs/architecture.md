@@ -6,7 +6,7 @@
 
 ## Request flow
 
-   action-dispatch tools: `jena_sparql`, `jena_graph`, or `jena_admin`.
+   typed tools such as `jena_query`, `jena_get_graph` or `jena_create_dataset`.
 2. The tool wrapper resolves a `JenaApi` via `get_client()`, which reads the
    `JENA_*` environment variables, then dispatches the requested action to the
    matching client method.

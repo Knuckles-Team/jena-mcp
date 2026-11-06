@@ -20,8 +20,8 @@ Protocol, the Graph Store Protocol (GSP), and the Fuseki administration API — 
 - **`JenaApi`** — a tolerant `requests`-based REST facade over a Fuseki endpoint,
   organized by protocol (SPARQL, Graph Store, administration); every call degrades
   to a clear error rather than failing silently.
-- **Three action-dispatch MCP tools** — `jena_sparql`, `jena_graph`, and
-  `jena_admin` — covering reads, writes, and server administration.
+- **One typed MCP tool per operation** — `jena_query`, `jena_update`, the
+  `jena_*_graph` tools and the admin tools — covering reads, writes, and server administration.
   the same tool surface.
 
 The server **remains inactive when credentials are absent**, so it is safe to

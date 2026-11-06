@@ -4,7 +4,7 @@ skill_type: skill
 description: >-
   Run SPARQL against an Apache Jena Fuseki dataset via the jena-mcp MCP server —
   read queries (SELECT/ASK/CONSTRUCT/DESCRIBE) and updates (INSERT/DELETE/LOAD/
-  CLEAR) with the domain-typed jena_sparql tool. Use when the agent must query
+  CLEAR) with the typed jena_query and jena_update tools. Use when the agent must query
   triples, count/aggregate over a graph, or mutate data with a SPARQL update
   against a named Fuseki dataset. Do NOT use to read/replace whole graphs as RDF
   documents (use jena-graph-store) or to create datasets / run backups / read
@@ -18,7 +18,7 @@ metadata:
 # Jena SPARQL Operations
 
 Domain-typed SPARQL access to an Apache Jena **Fuseki** dataset. The single
-`jena_sparql` tool routes to the dataset's `/sparql` (read) and `/update`
+`jena_query` and `jena_update` tools route to the dataset's `/sparql` (read) and `/update`
 (write) endpoints. Prefer it over raw HTTP — it carries the correct content
 types and Accept negotiation.
 
@@ -44,40 +44,42 @@ Connect via the `mcp-client` skill against the **`jena-mcp`** MCP server.
 | `JENA_USERNAME` / `JENA_PASSWORD` | optional | Basic auth |
 | `JENA_SSL_VERIFY` | optional | TLS verification toggle |
 
-## Tools & actions
-| Tool | Actions | Key params |
-|------|---------|-----------|
-| `jena_sparql` | `query`, `update` | `dataset`, `sparql`, `accept` (query only) |
+## Tools
+| Tool | Key params |
+|------|-----------|
+| `jena_query` | `dataset`, `sparql`, `accept` |
+| `jena_update` | `dataset`, `sparql` |
+| `jena_source_records` | `dataset`, `sparql` (SELECT only), `max_records`; normalized bindings for ingestion |
 
 - `dataset` — the Fuseki mount name (e.g. `ds`), not a full URL.
 - `sparql` — the query/update string.
-- `accept` — result media type for `query` (default
+- `accept` — result media type for `jena_query` (default
   `application/sparql-results+json`; use `text/turtle` for CONSTRUCT/DESCRIBE).
 
 ## Recipes
 Count triples in the default graph:
 ```
-action=query dataset=ds
+dataset=ds
 sparql="SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }"
 ```
 List 10 subjects of a type:
 ```
-action=query dataset=ds
+dataset=ds
 sparql="PREFIX : <http://knuckles.team/kg#> SELECT ?s WHERE { ?s a :JenaDataset } LIMIT 10"
 ```
 CONSTRUCT a subgraph as Turtle:
 ```
-action=query dataset=ds accept=text/turtle
+dataset=ds accept=text/turtle
 sparql="CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 100"
 ```
 Insert triples:
 ```
-action=update dataset=ds
+dataset=ds
 sparql="PREFIX : <http://knuckles.team/kg#> INSERT DATA { :ds1 a :JenaDataset ; :datasetName \"ds\" }"
 ```
 Delete-insert (rename in place):
 ```
-action=update dataset=ds
+dataset=ds
 sparql="DELETE { ?s :datasetState \"offline\" } INSERT { ?s :datasetState \"active\" } WHERE { ?s :datasetState \"offline\" }"
 ```
 

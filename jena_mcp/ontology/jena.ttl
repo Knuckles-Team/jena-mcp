@@ -10,19 +10,19 @@
 # itself be hosted on. Models the Fuseki server topology (server -> datasets -> graphs +
 # SPARQL/GSP endpoints) and its admin lifecycle (async tasks: backup, compaction). All
 # classes/properties live in the SHARED `:` (kg#) namespace; only the owl:Ontology node
-# gets the per-package IRI. Backs the jena-mcp tool surface (jena_sparql / jena_graph /
-# jena_admin). This package is a backend/compute service, so the model describes the
+# gets the per-package IRI. Backs the jena-mcp tool surface (jena_query, jena_update,
+# jena_get_graph and the admin tools). This package is a backend/compute service, so the model describes the
 # store's own topology rather than ingested business records.
 
 # --- classes (owl:Class) ---
 
 :FusekiServer a owl:Class ;
     rdfs:label "Fuseki Server" ;
-    rdfs:comment "An Apache Jena Fuseki server process hosting one or more datasets (jena_admin server_info/ping)." .
+    rdfs:comment "An Apache Jena Fuseki server process hosting one or more datasets (jena_server_info/jena_ping)." .
 
 :JenaDataset a owl:Class ;
     rdfs:label "Jena Dataset" ;
-    rdfs:comment "A named RDF dataset mounted on a Fuseki server, backed by a storage engine (jena_admin list_datasets/dataset_info)." .
+    rdfs:comment "A named RDF dataset mounted on a Fuseki server, backed by a storage engine (jena_list_datasets/jena_dataset_info)." .
 
 :RdfGraph a owl:Class ;
     rdfs:label "RDF Graph" ;
@@ -38,11 +38,11 @@
 
 :AdminTask a owl:Class ;
     rdfs:label "Admin Task" ;
-    rdfs:comment "An asynchronous Fuseki admin operation (backup or compaction) tracked by a task id (jena_admin list_tasks/task_info)." .
+    rdfs:comment "An asynchronous Fuseki admin operation (backup or compaction) tracked by a task id (jena_list_tasks/jena_task_info)." .
 
 :DatasetBackup a owl:Class ;
     rdfs:label "Dataset Backup" ;
-    rdfs:comment "A point-in-time backup artifact produced by an AdminTask over a JenaDataset (jena_admin backup)." .
+    rdfs:comment "A point-in-time backup artifact produced by an AdminTask over a JenaDataset (jena_backup)." .
 
 # --- links (owl:ObjectProperty) ---
 

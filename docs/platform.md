@@ -100,5 +100,5 @@ curl -s -u admin:admin -X POST http://localhost:3030/$/datasets \
   --data "dbName=ds&dbType=tdb2"
 ```
 
-The same operation is available through the [`jena_admin`](usage.md#as-an-mcp-server)
+The same operation is available through the [`jena_create_dataset` and the other admin tools](usage.md#as-an-mcp-server)
 tool (`create_dataset`) and the `JenaApi.create_dataset()` method.
