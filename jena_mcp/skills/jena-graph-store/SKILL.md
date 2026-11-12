@@ -71,12 +71,12 @@ jena_get_graph dataset=ds graph=http://example.org/g1 accept=application/n-tripl
 Replace a named graph with new Turtle (destructive):
 ```
 jena_put_graph dataset=ds graph=http://example.org/g1 content_type=text/turtle
-rdf_data="@prefix : <http://knuckles.team/kg#> . :s :p :o ."
+rdf_data="@prefix : <https://knuckles-team.github.io/ontology/core#> . :s :p :o ."
 ```
 Merge triples into the default graph (additive):
 ```
 jena_post_graph dataset=ds graph=default content_type=text/turtle
-rdf_data="@prefix : <http://knuckles.team/kg#> . :s2 :p :o2 ."
+rdf_data="@prefix : <https://knuckles-team.github.io/ontology/core#> . :s2 :p :o2 ."
 ```
 Drop a named graph:
 ```

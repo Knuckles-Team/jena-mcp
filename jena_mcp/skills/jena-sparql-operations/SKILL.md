@@ -65,7 +65,7 @@ sparql="SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }"
 List 10 subjects of a type:
 ```
 dataset=ds
-sparql="PREFIX : <http://knuckles.team/kg#> SELECT ?s WHERE { ?s a :JenaDataset } LIMIT 10"
+sparql="PREFIX : <https://knuckles-team.github.io/ontology/core#> SELECT ?s WHERE { ?s a :JenaDataset } LIMIT 10"
 ```
 CONSTRUCT a subgraph as Turtle:
 ```
@@ -75,7 +75,7 @@ sparql="CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 100"
 Insert triples:
 ```
 dataset=ds
-sparql="PREFIX : <http://knuckles.team/kg#> INSERT DATA { :ds1 a :JenaDataset ; :datasetName \"ds\" }"
+sparql="PREFIX : <https://knuckles-team.github.io/ontology/core#> INSERT DATA { :ds1 a :JenaDataset ; :datasetName \"ds\" }"
 ```
 Delete-insert (rename in place):
 ```

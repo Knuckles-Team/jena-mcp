@@ -1,7 +1,8 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix core: <https://knuckles-team.github.io/ontology/core#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix dc: <http://purl.org/dc/terms/> .
-@prefix : <http://knuckles.team/kg#> .
+@prefix : <https://knuckles-team.github.io/ontology/connector/jena#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -17,30 +18,37 @@
 # --- classes (owl:Class) ---
 
 :FusekiServer a owl:Class ;
+    rdfs:subClassOf core:Server ;
     rdfs:label "Fuseki Server" ;
     rdfs:comment "An Apache Jena Fuseki server process hosting one or more datasets (jena_server_info/jena_ping)." .
 
 :JenaDataset a owl:Class ;
+    rdfs:subClassOf core:Dataset ;
     rdfs:label "Jena Dataset" ;
     rdfs:comment "A named RDF dataset mounted on a Fuseki server, backed by a storage engine (jena_list_datasets/jena_dataset_info)." .
 
 :RdfGraph a owl:Class ;
+    rdfs:subClassOf core:RdfGraph ;
     rdfs:label "RDF Graph" ;
     rdfs:comment "A named RDF graph (or the default graph) of triples inside a JenaDataset, read/written via the Graph Store Protocol (jena_graph)." .
 
 :SparqlEndpoint a owl:Class ;
+    rdfs:subClassOf core:Interface ;
     rdfs:label "SPARQL Endpoint" ;
     rdfs:comment "A query or update HTTP service exposed by a dataset (/sparql, /update) that answers SPARQL against its graphs (jena_sparql)." .
 
 :SparqlOperation a owl:Class ;
+    rdfs:subClassOf core:ActionInvocation ;
     rdfs:label "SPARQL Operation" ;
     rdfs:comment "A single SPARQL request executed against an endpoint — a read query (SELECT/ASK/CONSTRUCT/DESCRIBE) or an update (INSERT/DELETE/LOAD/CLEAR)." .
 
 :AdminTask a owl:Class ;
+    rdfs:subClassOf core:Task ;
     rdfs:label "Admin Task" ;
     rdfs:comment "An asynchronous Fuseki admin operation (backup or compaction) tracked by a task id (jena_list_tasks/jena_task_info)." .
 
 :DatasetBackup a owl:Class ;
+    rdfs:subClassOf core:Snapshot ;
     rdfs:label "Dataset Backup" ;
     rdfs:comment "A point-in-time backup artifact produced by an AdminTask over a JenaDataset (jena_backup)." .
 
@@ -84,7 +92,7 @@
 :administeredBy a owl:ObjectProperty ;
     rdfs:label "administered by" ;
     rdfs:comment "Links a FusekiServer or AdminTask to the Person/operator responsible for it." ;
-    rdfs:range :Person .
+    rdfs:range core:Person .
 
 # --- fields (owl:DatatypeProperty) ---
 
@@ -147,7 +155,7 @@
     rdfs:domain :AdminTask ;
     rdfs:range xsd:string .
 
-<http://knuckles.team/kg/jena> a owl:Ontology ;
+<https://knuckles-team.github.io/ontology/connector/jena> a owl:Ontology ;
     rdfs:label "Apache Jena (Fuseki) Ontology" ;
     rdfs:comment """Apache Jena Fuseki triplestore topology and admin model — servers,
     datasets, RDF graphs, SPARQL/GSP endpoints, SPARQL operations, and the async admin
