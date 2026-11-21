@@ -27,11 +27,6 @@
     rdfs:label "Jena Dataset" ;
     rdfs:comment "A named RDF dataset mounted on a Fuseki server, backed by a storage engine (jena_list_datasets/jena_dataset_info)." .
 
-:RdfGraph a owl:Class ;
-    rdfs:subClassOf core:RdfGraph ;
-    rdfs:label "RDF Graph" ;
-    rdfs:comment "A named RDF graph (or the default graph) of triples inside a JenaDataset, read/written via the Graph Store Protocol (jena_graph)." .
-
 :SparqlEndpoint a owl:Class ;
     rdfs:subClassOf core:Interface ;
     rdfs:label "SPARQL Endpoint" ;
@@ -64,7 +59,7 @@
     rdfs:label "has graph" ;
     rdfs:comment "Links a JenaDataset to an RdfGraph it contains." ;
     rdfs:domain :JenaDataset ;
-    rdfs:range :RdfGraph .
+    rdfs:range core:RdfGraph .
 
 :hasEndpoint a owl:ObjectProperty ;
     rdfs:label "has endpoint" ;
@@ -117,13 +112,8 @@
 :graphUri a owl:DatatypeProperty ;
     rdfs:label "graph uri" ;
     rdfs:comment "The IRI naming an RdfGraph, or the literal 'default' for the unnamed default graph." ;
-    rdfs:domain :RdfGraph ;
+    rdfs:domain core:RdfGraph ;
     rdfs:range xsd:string .
-
-:tripleCount a owl:DatatypeProperty ;
-    rdfs:label "triple count" ;
-    rdfs:comment "Number of RDF triples in an RdfGraph or JenaDataset." ;
-    rdfs:range xsd:integer .
 
 :endpointKind a owl:DatatypeProperty ;
     rdfs:label "endpoint kind" ;
