@@ -2,13 +2,7 @@
 name: jena-server-admin
 skill_type: skill
 description: >-
-  Administer an Apache Jena Fuseki server via the jena-mcp MCP server's admin
-  tools (jena_list_datasets, jena_create_dataset, ...) — dataset lifecycle (create/list/info/delete/set-state),
-  server info, request stats, Prometheus metrics, async tasks, and TDB2 backup /
-  compaction. Use when the agent must provision or take a dataset offline, check
-  server health/stats, or run and track a backup or compaction. Do NOT use to run
-  SPARQL (use jena-sparql-operations) or to read/write graph RDF (use
-  jena-graph-store).
+  Administer an Apache Jena Fuseki server via the jena-mcp admin tools: dataset lifecycle, server info, stats, metrics, async tasks, and TDB2 backup and compaction. Use to provision or take a dataset offline, check server health, or run and track a backup. Do NOT use for SPARQL (jena-sparql-operations) or graph RDF (jena-graph-store).
 license: MIT
 tags: [jena, fuseki, admin, tdb2, backup, mcp]
 metadata:
@@ -16,6 +10,8 @@ metadata:
   version: '0.1.0'
 ---
 # Jena Server Admin
+
+Scope: Administer an Apache Jena Fuseki server via the jena-mcp MCP server's admin tools (jena_list_datasets, jena_create_dataset, ...) — dataset lifecycle (create/list/info/delete/set-state), server info, request stats, Prometheus metrics, async tasks, and TDB2 backup / compaction. Use when the agent must provision or take a dataset offline, check server health/stats, or run and track a backup or compaction. Do NOT use to run SPARQL (use jena-sparql-operations) or to read/write graph RDF (use jena-graph-store).
 
 Operational control of an Apache Jena **Fuseki** server via its admin API
 (`/$/…`), exposed as one typed tool per operation. Covers dataset provisioning,
@@ -43,6 +39,23 @@ endpoints may require credentials even when the data endpoints are open.
 | `APACHE_JENA_TOKEN` | optional | Bearer token (alias `JENA_TOKEN`) |
 | `JENA_USERNAME` / `JENA_PASSWORD` | optional | Basic auth (often required for `/$/`) |
 | `JENA_SSL_VERIFY` | optional | TLS verification toggle |
+
+## Steps
+
+1. Check the server with `jena_ping`. Verify it responds without an authentication error.
+2. Check `jena_list_datasets` for the name and provision a missing dataset with `jena_create_dataset` (name, db_type). Verify `jena_dataset_info` (name) returns it as active with the chosen `db_type`.
+3. Before maintenance, start a backup with `jena_backup` (dataset). Verify the response carries a task handle and `jena_task_info` (task_id) reports finished.
+4. Compact a TDB2 dataset with `jena_compact` (dataset, delete_old). Verify `jena_task_info` (task_id) reports finished.
+5. Read health with `jena_stats` (dataset). Verify the request counts return for that dataset.
+6. Remove a dataset with `jena_delete_dataset` (name, confirm) only after a finished backup and explicit approval. Verify `jena_list_datasets` no longer lists it.
+
+## Failure recovery
+
+| Failure | Cause | Recovery |
+|---------|-------|----------|
+| 401 or 403 on admin calls | Admin endpoints need credentials | Set `JENA_USERNAME` and `JENA_PASSWORD` or `APACHE_JENA_TOKEN`, and report which one is missing |
+| `jena_compact` fails | The dataset is `mem` or `tdb`, and only `tdb2` can be compacted | Check `db_type` with `jena_dataset_info` (name) and skip compaction for that dataset |
+| `jena_delete_dataset` refused | `confirm` was not passed | Take a backup with `jena_backup`, show the dataset name to the requester, and pass `confirm=true` only after explicit approval |
 
 ## Tools
 One typed tool per Fuseki admin operation.
