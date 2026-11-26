@@ -56,6 +56,22 @@ Deliver one small, reviewable slice tied to the owning spec row.
 5. Commit with `Spec: PIPE-CONNSPEC-R130.4` when this skill contract is the
    owning delivery row, followed by the required `Co-Authored-By:` trailer.
 
+## Steps
+
+1. Find the owning requirement with `git grep -n "<term>" -- specs`. Verify a row matches and record its id for the commit trailer.
+2. Make the smallest change in the owning file (`jena_mcp/api/api_client_jena.py`, `jena_mcp/mcp/mcp_jena.py` or `jena_mcp/connector_sources.py`). Verify `git diff --stat` shows only intended files.
+3. Run the focused test with `uv run pytest tests/test_jena_development_skill.py`. Verify it exits 0.
+4. Run the gate with `pre-commit run --all-files`. Verify every hook reports Passed.
+5. Stage reviewed paths with `git add -- <path>` and inspect `git diff --cached --name-status`. Verify no logs, notes or caches are listed.
+
+## Failure recovery
+
+| Failure | Cause | Recovery |
+|---------|-------|----------|
+| `uv sync --extra test` fails | Lock file or dependency edit out of step | Revert the unplanned dependency edit, or use the lockfile workflow from `AGENTS.md` |
+| A pre-commit hook fails | Formatting, spelling or skill-budget violation | Read the hook output, fix the named file, and re-run `pre-commit run --all-files` |
+| No requirement matches the grep | The behavior is new to this connector | Extend the nearest `specs/` row for this connector and cite it in the `Spec:` trailer |
+
 ## Setup and gates
 
 Use the project extras for local checks:

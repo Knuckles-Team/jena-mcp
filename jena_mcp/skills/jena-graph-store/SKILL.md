@@ -2,12 +2,7 @@
 name: jena-graph-store
 skill_type: skill
 description: >-
-  Read, replace, merge, or drop whole RDF graphs in an Apache Jena Fuseki dataset
-  via the jena-mcp MCP server's Graph Store Protocol tools (jena_get_graph, jena_put_graph, jena_post_graph, jena_delete_graph). Use when
-  the agent must export a named/default graph as RDF, bulk-load an RDF document,
-  merge triples into a graph, or delete a graph outright. Do NOT use for
-  fine-grained SELECT/UPDATE by pattern (use jena-sparql-operations) or for
-  server/dataset administration (use jena-server-admin).
+  Read, replace, merge, or drop whole RDF graphs in an Apache Jena Fuseki dataset via the jena-mcp MCP server's Graph Store Protocol tools (jena_get_graph, jena_put_graph, jena_post_graph, jena_delete_graph). Use when the agent must export a named/default graph as RDF, bulk-load an RDF document, merge triples into a graph, or delete a graph outright.
 license: MIT
 tags: [jena, fuseki, gsp, graph-store, rdf, mcp]
 metadata:
@@ -15,6 +10,8 @@ metadata:
   version: '0.1.0'
 ---
 # Jena Graph Store (GSP)
+
+Scope: Read, replace, merge, or drop whole RDF graphs in an Apache Jena Fuseki dataset via the jena-mcp MCP server's Graph Store Protocol tools (jena_get_graph, jena_put_graph, jena_post_graph, jena_delete_graph). Use when the agent must export a named/default graph as RDF, bulk-load an RDF document, merge triples into a graph, or delete a graph outright. Do NOT use for fine-grained SELECT/UPDATE by pattern (use jena-sparql-operations) or for server/dataset administration (use jena-server-admin).
 
 Whole-graph RDF I/O against an Apache Jena **Fuseki** dataset via the SPARQL
 1.1 **Graph Store Protocol** (`/data`). The `jena_get_graph`, `jena_put_graph`, `jena_post_graph` and `jena_delete_graph` tools address a named
@@ -44,6 +41,22 @@ env as the other jena skills:
 | `APACHE_JENA_TOKEN` | optional | Bearer token (alias `JENA_TOKEN`) |
 | `JENA_USERNAME` / `JENA_PASSWORD` | optional | Basic auth |
 | `JENA_SSL_VERIFY` | optional | TLS verification toggle |
+
+## Steps
+
+1. Export the current graph with `jena_get_graph` (dataset, graph, accept). Verify the response is non-empty RDF in the requested serialization, or note the graph is empty.
+2. Keep the step 1 output as the rollback copy by re-reading with `jena_get_graph` (dataset, graph, accept). Verify both reads are identical so the copy is complete.
+3. Load new data with `jena_post_graph` (dataset, graph, rdf_data, content_type) to merge, or `jena_put_graph` to replace the whole graph after the requester approves. Verify the call returns without a parse error.
+4. Re-read with `jena_get_graph` (dataset, graph, accept). Verify the new triples appear, and for `put` that no old triples remain.
+5. Remove a graph with `jena_delete_graph` (dataset, graph, confirm) only after explicit approval of the graph IRI. Verify a follow-up `jena_get_graph` returns an empty graph or a not-found result.
+
+## Failure recovery
+
+| Failure | Cause | Recovery |
+|---------|-------|----------|
+| Parse error from `jena_put_graph` or `jena_post_graph` | `content_type` does not match the real serialization of `rdf_data` | Resend with `content_type` set to the actual format, for example `text/turtle` or `application/n-triples` |
+| `jena_delete_graph` refused | `confirm` was not passed | Show the graph IRI to the requester and pass `confirm=true` only after explicit approval |
+| Connection or authentication error | `APACHE_JENA_URL` unset, or `APACHE_JENA_TOKEN` or `JENA_USERNAME` and `JENA_PASSWORD` missing or wrong | Check the Prerequisites table variables and report which one is unset |
 
 ## Tools
 | Tool | Key params |

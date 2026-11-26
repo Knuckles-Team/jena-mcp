@@ -2,13 +2,7 @@
 name: jena-sparql-operations
 skill_type: skill
 description: >-
-  Run SPARQL against an Apache Jena Fuseki dataset via the jena-mcp MCP server —
-  read queries (SELECT/ASK/CONSTRUCT/DESCRIBE) and updates (INSERT/DELETE/LOAD/
-  CLEAR) with the typed jena_query and jena_update tools. Use when the agent must query
-  triples, count/aggregate over a graph, or mutate data with a SPARQL update
-  against a named Fuseki dataset. Do NOT use to read/replace whole graphs as RDF
-  documents (use jena-graph-store) or to create datasets / run backups / read
-  stats (use jena-server-admin).
+  Run SPARQL against an Apache Jena Fuseki dataset via the jena-mcp MCP server — read queries (SELECT/ASK/CONSTRUCT/DESCRIBE) and updates (INSERT/DELETE/LOAD/ CLEAR) with the typed jena_query and jena_update tools. Use when the agent must query triples, count/aggregate over a graph, or mutate data with a SPARQL update against a named Fuseki dataset.
 license: MIT
 tags: [jena, fuseki, sparql, rdf, triplestore, mcp]
 metadata:
@@ -16,6 +10,8 @@ metadata:
   version: '0.1.0'
 ---
 # Jena SPARQL Operations
+
+Scope: Run SPARQL against an Apache Jena Fuseki dataset via the jena-mcp MCP server — read queries (SELECT/ASK/CONSTRUCT/DESCRIBE) and updates (INSERT/DELETE/LOAD/ CLEAR) with the typed jena_query and jena_update tools. Use when the agent must query triples, count/aggregate over a graph, or mutate data with a SPARQL update against a named Fuseki dataset. Do NOT use to read/replace whole graphs as RDF documents (use jena-graph-store) or to create datasets / run backups / read stats (use jena-server-admin).
 
 Domain-typed SPARQL access to an Apache Jena **Fuseki** dataset. The single
 `jena_query` and `jena_update` tools route to the dataset's `/sparql` (read) and `/update`
@@ -43,6 +39,22 @@ Connect via the `mcp-client` skill against the **`jena-mcp`** MCP server.
 | `APACHE_JENA_TOKEN` | optional | Bearer token (alias `JENA_TOKEN`) |
 | `JENA_USERNAME` / `JENA_PASSWORD` | optional | Basic auth |
 | `JENA_SSL_VERIFY` | optional | TLS verification toggle |
+
+## Steps
+
+1. Pick the dataset by calling `jena_query` (dataset, sparql) with `ASK { ?s ?p ?o }`. Verify the response is a boolean result instead of a connection or not-found error.
+2. Run the read with `jena_query` (dataset, sparql, accept), adding a `LIMIT` to SELECT queries. Verify the result has the expected variables and a plausible row count.
+3. For a write, preview its effect first with a `SELECT` or `COUNT` through `jena_query` using the same WHERE pattern. Verify the count matches what the requester expects to change.
+4. Apply the change with `jena_update` (dataset, sparql) after approval. Verify the call returns success without a parse error.
+5. Re-run the step 3 query with `jena_query`. Verify the count or triples now reflect the update.
+
+## Failure recovery
+
+| Failure | Cause | Recovery |
+|---------|-------|----------|
+| Parse error from `jena_query` or `jena_update` | Missing PREFIX declaration or wrong query form | Add the PREFIX lines, and use `jena_query` for reads and `jena_update` for writes |
+| Not found for the dataset | Wrong `dataset` mount name | List datasets with the `jena-server-admin` skill's `jena_list_datasets` and resend with the exact name |
+| Connection or authentication error | `APACHE_JENA_URL` unset, or `APACHE_JENA_TOKEN` or `JENA_USERNAME` and `JENA_PASSWORD` missing or wrong | Check the Prerequisites table variables and report which one is unset |
 
 ## Tools
 | Tool | Key params |
