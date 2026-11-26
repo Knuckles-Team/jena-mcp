@@ -1,30 +1,143 @@
-# jena-mcp
-
-(Fuseki) integration.
+# Jena Mcp
+## MCP
 
 ![PyPI - Version](https://img.shields.io/pypi/v/jena-mcp)
 ![MCP Server](https://badge.mcpx.dev?type=server 'MCP Server')
+![PyPI - Downloads](https://img.shields.io/pypi/dd/jena-mcp)
+![GitHub Repo stars](https://img.shields.io/github/stars/Knuckles-Team/jena-mcp)
+![GitHub forks](https://img.shields.io/github/forks/Knuckles-Team/jena-mcp)
+![GitHub contributors](https://img.shields.io/github/contributors/Knuckles-Team/jena-mcp)
 ![PyPI - License](https://img.shields.io/pypi/l/jena-mcp)
 ![GitHub](https://img.shields.io/github/license/Knuckles-Team/jena-mcp)
+![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/Knuckles-Team/jena-mcp)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/Knuckles-Team/jena-mcp)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/Knuckles-Team/jena-mcp)
+![GitHub issues](https://img.shields.io/github/issues/Knuckles-Team/jena-mcp)
+![GitHub top language](https://img.shields.io/github/languages/top/Knuckles-Team/jena-mcp)
+![GitHub language count](https://img.shields.io/github/languages/count/Knuckles-Team/jena-mcp)
+![GitHub repo size](https://img.shields.io/github/repo-size/Knuckles-Team/jena-mcp)
+![GitHub repo file count (file type)](https://img.shields.io/github/directory-file-count/Knuckles-Team/jena-mcp)
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/jena-mcp)
+![PyPI - Implementation](https://img.shields.io/pypi/implementation/jena-mcp)
 
-> **Documentation** — Installation, deployment, usage across the API, CLI, and MCP
-> interfaces, and guidance for provisioning the Apache Jena Fuseki platform are
-> maintained in the [official documentation](https://knuckles-team.github.io/jena-mcp/).
+> **Documentation** — Installation, deployment, and usage across the API, CLI, MCP,
+> and A2A agent interfaces are maintained in the
+> [official documentation](https://knuckles-team.github.io/jena-mcp/).
 
-## Table of Contents
-- [Overview](#overview)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Architecture](#architecture)
-- [Deployment](#deployment)
-- [Environment Variables](#environment-variables)
-- [MCP Tools](#mcp-tools)
-- [Documentation](#documentation)
+---
 
 ## Overview
+
+(Fuseki) integration.
 jena-mcp exposes a standardized interface to interact with an Apache Jena Fuseki
 server using the Model Context Protocol — SPARQL query/update, the Graph Store
 server.
+
+---
+
+## MCP
+
+### MCP Tools
+Auto-generated — do not edit between the markers below.
+<!-- MCP-TOOLS-TABLE:START -->
+
+#### Tools
+
+| MCP Tool | Description |
+|----------|-------------|
+| `jena_query`, `jena_update` | SPARQL query and update against a Fuseki dataset. |
+| `jena_get_graph`, `jena_put_graph`, `jena_post_graph`, `jena_delete_graph` | Graph Store Protocol read, replace, merge and delete. |
+| `jena_ping`, `jena_server_info`, `jena_stats`, `jena_metrics`, `jena_list_datasets`, `jena_dataset_info`, `jena_create_dataset`, `jena_delete_dataset`, `jena_set_dataset_state`, `jena_list_tasks`, `jena_task_info`, `jena_backup`, `jena_compact` | Fuseki server administration. |
+| `jena_source_records` | List normalized, read-only SPARQL bindings for governed ingestion. |
+
+<!-- MCP-TOOLS-TABLE:END -->
+
+---
+
+## Environment Variables
+
+<!-- ENV-VARS-TABLE:START -->
+
+#### Package environment variables
+
+| Variable | Example | Description |
+|----------|---------|-------------|
+| `APACHE_JENA_URL` | `http://localhost:3030` | deployed convention; takes precedence |
+| `JENA_FUSEKI_URL` | `http://localhost:3030/ds` |  |
+| `JENA_URL` | `http://localhost:3030` | fallback alias for the base URL |
+| `JENA_DATASET` | — |  |
+| `APACHE_JENA_TOKEN` | secret-injected | deployed convention; takes precedence |
+| `JENA_TOKEN` | secret-injected | fallback alias for the bearer token |
+| `JENA_USERNAME` | `admin` |  |
+| `JENA_PASSWORD` | secret-injected |  |
+| `JENA_TLS_PROFILE` | — |  |
+| `JENA_TLS_PROFILE_REF` | — |  |
+| `JENATOOL` | `True` |  |
+
+#### Inherited scion-sdk variables (apply to every connector)
+
+| Variable | Example | Description |
+|----------|---------|-------------|
+| `TRANSPORT` | `stdio` | MCP transport: `stdio` \| `streamable-http` \| `sse` |
+| `HOST` | `127.0.0.1` | Loopback bind host (set an authenticated ingress explicitly) |
+| `PORT` | `8000` | Bind port (HTTP transports) |
+| `MCP_ENABLED_TOOLS` | — | Comma-separated tool allow-list |
+| `MCP_DISABLED_TOOLS` | — | Comma-separated tool deny-list |
+| `MCP_ENABLED_TAGS` | — | Comma-separated tag allow-list |
+| `MCP_DISABLED_TAGS` | — | Comma-separated tag deny-list |
+| `EUNOMIA_TYPE` | `none` | Authorization mode: `none` \| `embedded` \| `remote` |
+| `EUNOMIA_POLICY_FILE` | `mcp_policies.json` | Embedded Eunomia policy file |
+| `EUNOMIA_REMOTE_URL` | — | Remote Eunomia authorization server URL |
+| `ENABLE_OTEL` | `False` | Enable OpenTelemetry export |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | — | OTLP collector endpoint |
+| `MCP_CLIENT_AUTH` | — | Outbound MCP child auth: `oidc-client-credentials` \| `basic` \| `none` |
+| `OIDC_CLIENT_ID` | — | OIDC client id (service-account auth) |
+| `OIDC_CLIENT_SECRET_REF` | `secret://identity/oidc-client-secret` | Runtime secret reference for the OIDC service account |
+| `MCP_BASIC_AUTH_USERNAME` | — | HTTP Basic username (`MCP_CLIENT_AUTH=basic`) |
+| `MCP_BASIC_AUTH_PASSWORD_REF` | `secret://identity/mcp-basic-password` | Runtime secret reference for HTTP Basic auth (`MCP_CLIENT_AUTH=basic`) |
+| `DEBUG` | `False` | Verbose logging |
+| `PYTHONUNBUFFERED` | `1` | Unbuffered stdout (recommended in containers) |
+| `MCP_URL` | `http://localhost:8000/mcp` | URL of the MCP server the agent connects to |
+| `PROVIDER` | — | Operator-configured LLM provider for the agent |
+| `MODEL_ID` | — | Operator-configured model id for the agent |
+
+_11 package + 23 inherited variable(s). Auto-generated from `.env.example` + the shared scion-sdk set — do not edit._
+<!-- ENV-VARS-TABLE:END -->
+
+Every variable the server reads, grouped by purpose.
+
+### Connection & Credentials (Jena / Fuseki)
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `JENA_FUSEKI_URL` | Fuseki server base URL (aliases: `APACHE_JENA_URL`, `JENA_URL`) | `http://localhost:3030/ds` |
+| `JENA_USERNAME` | Basic-auth user id | — |
+| `JENA_PASSWORD` | Basic-auth password | — |
+| `JENA_TOKEN` | Bearer token, used in place of basic auth (alias: `APACHE_JENA_TOKEN`) | — |
+| `JENA_TLS_PROFILE` | Named outbound TLS policy from AgentConfig | `system` |
+
+### MCP server / transport
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `TRANSPORT` | `stdio`, `streamable-http`, or `sse` | `stdio` |
+| `HOST` | Bind host (HTTP transports) | `0.0.0.0` |
+| `PORT` | Bind port (HTTP transports) | `8000` |
+| `MCP_TOOL_MODE` | Tool surface: `condensed`, `verbose`, or `both` | `condensed` |
+
+### Telemetry & governance
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `ENABLE_OTEL` | Enable OpenTelemetry export | `True` |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | OTLP collector endpoint | — |
+| `EUNOMIA_TYPE` | Authorization mode: `none`, `embedded`, `remote` | `none` |
+| `EUNOMIA_POLICY_FILE` | Embedded policy file | `mcp_policies.json` |
+| `EUNOMIA_REMOTE_URL` | Remote Eunomia server URL | — |
+
+### Tool toggles
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `JENATOOL` | Register the Jena tool set (set `false` to disable) | `True` |
+
+---
 
 ## Installation
 
@@ -68,6 +181,8 @@ deployments can use the bundled engine. For production or shared state, run
 Deployment recipes (single-node + Raft HA), connection configuration, and architecture
 diagrams are documented in the
 [medulla deployment guide](https://knuckles-team.github.io/medulla/deployment/).
+
+---
 
 ## Usage
 Run the MCP server directly:
@@ -200,103 +315,7 @@ the detailed transport contract.
   `MCP_ALLOWED_HOSTS` in `AgentConfig`.
 <!-- END GENERATED: additional-deployment-options -->
 
-## Environment Variables
-
-<!-- ENV-VARS-TABLE:START -->
-
-#### Package environment variables
-
-| Variable | Example | Description |
-|----------|---------|-------------|
-| `APACHE_JENA_URL` | `http://localhost:3030` | deployed convention; takes precedence |
-| `JENA_FUSEKI_URL` | `http://localhost:3030/ds` |  |
-| `JENA_URL` | `http://localhost:3030` | fallback alias for the base URL |
-| `JENA_DATASET` | — |  |
-| `APACHE_JENA_TOKEN` | secret-injected | deployed convention; takes precedence |
-| `JENA_TOKEN` | secret-injected | fallback alias for the bearer token |
-| `JENA_USERNAME` | `admin` |  |
-| `JENA_PASSWORD` | secret-injected |  |
-| `JENA_TLS_PROFILE` | — |  |
-| `JENA_TLS_PROFILE_REF` | — |  |
-| `JENATOOL` | `True` |  |
-
-#### Inherited scion-sdk variables (apply to every connector)
-
-| Variable | Example | Description |
-|----------|---------|-------------|
-| `TRANSPORT` | `stdio` | MCP transport: `stdio` \| `streamable-http` \| `sse` |
-| `HOST` | `127.0.0.1` | Loopback bind host (set an authenticated ingress explicitly) |
-| `PORT` | `8000` | Bind port (HTTP transports) |
-| `MCP_ENABLED_TOOLS` | — | Comma-separated tool allow-list |
-| `MCP_DISABLED_TOOLS` | — | Comma-separated tool deny-list |
-| `MCP_ENABLED_TAGS` | — | Comma-separated tag allow-list |
-| `MCP_DISABLED_TAGS` | — | Comma-separated tag deny-list |
-| `EUNOMIA_TYPE` | `none` | Authorization mode: `none` \| `embedded` \| `remote` |
-| `EUNOMIA_POLICY_FILE` | `mcp_policies.json` | Embedded Eunomia policy file |
-| `EUNOMIA_REMOTE_URL` | — | Remote Eunomia authorization server URL |
-| `ENABLE_OTEL` | `False` | Enable OpenTelemetry export |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | — | OTLP collector endpoint |
-| `MCP_CLIENT_AUTH` | — | Outbound MCP child auth: `oidc-client-credentials` \| `basic` \| `none` |
-| `OIDC_CLIENT_ID` | — | OIDC client id (service-account auth) |
-| `OIDC_CLIENT_SECRET_REF` | `secret://identity/oidc-client-secret` | Runtime secret reference for the OIDC service account |
-| `MCP_BASIC_AUTH_USERNAME` | — | HTTP Basic username (`MCP_CLIENT_AUTH=basic`) |
-| `MCP_BASIC_AUTH_PASSWORD_REF` | `secret://identity/mcp-basic-password` | Runtime secret reference for HTTP Basic auth (`MCP_CLIENT_AUTH=basic`) |
-| `DEBUG` | `False` | Verbose logging |
-| `PYTHONUNBUFFERED` | `1` | Unbuffered stdout (recommended in containers) |
-| `MCP_URL` | `http://localhost:8000/mcp` | URL of the MCP server the agent connects to |
-| `PROVIDER` | — | Operator-configured LLM provider for the agent |
-| `MODEL_ID` | — | Operator-configured model id for the agent |
-
-_11 package + 23 inherited variable(s). Auto-generated from `.env.example` + the shared scion-sdk set — do not edit._
-<!-- ENV-VARS-TABLE:END -->
-
-Every variable the server reads, grouped by purpose.
-
-### Connection & Credentials (Jena / Fuseki)
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `JENA_FUSEKI_URL` | Fuseki server base URL (aliases: `APACHE_JENA_URL`, `JENA_URL`) | `http://localhost:3030/ds` |
-| `JENA_USERNAME` | Basic-auth user id | — |
-| `JENA_PASSWORD` | Basic-auth password | — |
-| `JENA_TOKEN` | Bearer token, used in place of basic auth (alias: `APACHE_JENA_TOKEN`) | — |
-| `JENA_TLS_PROFILE` | Named outbound TLS policy from AgentConfig | `system` |
-
-### MCP server / transport
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `TRANSPORT` | `stdio`, `streamable-http`, or `sse` | `stdio` |
-| `HOST` | Bind host (HTTP transports) | `0.0.0.0` |
-| `PORT` | Bind port (HTTP transports) | `8000` |
-| `MCP_TOOL_MODE` | Tool surface: `condensed`, `verbose`, or `both` | `condensed` |
-
-### Telemetry & governance
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `ENABLE_OTEL` | Enable OpenTelemetry export | `True` |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | OTLP collector endpoint | — |
-| `EUNOMIA_TYPE` | Authorization mode: `none`, `embedded`, `remote` | `none` |
-| `EUNOMIA_POLICY_FILE` | Embedded policy file | `mcp_policies.json` |
-| `EUNOMIA_REMOTE_URL` | Remote Eunomia server URL | — |
-
-### Tool toggles
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `JENATOOL` | Register the Jena tool set (set `false` to disable) | `True` |
-
-## MCP Tools
-Auto-generated — do not edit between the markers below.
-<!-- MCP-TOOLS-TABLE:START -->
-
-#### Tools
-
-| MCP Tool | Description |
-|----------|-------------|
-| `jena_query`, `jena_update` | SPARQL query and update against a Fuseki dataset. |
-| `jena_get_graph`, `jena_put_graph`, `jena_post_graph`, `jena_delete_graph` | Graph Store Protocol read, replace, merge and delete. |
-| `jena_ping`, `jena_server_info`, `jena_stats`, `jena_metrics`, `jena_list_datasets`, `jena_dataset_info`, `jena_create_dataset`, `jena_delete_dataset`, `jena_set_dataset_state`, `jena_list_tasks`, `jena_task_info`, `jena_backup`, `jena_compact` | Fuseki server administration. |
-| `jena_source_records` | List normalized, read-only SPARQL bindings for governed ingestion. |
-
-<!-- MCP-TOOLS-TABLE:END -->
+---
 
 ## Documentation
 
@@ -313,6 +332,25 @@ recommended reference for installation, deployment, and day-to-day operation.
 | [Concepts](https://knuckles-team.github.io/jena-mcp/concepts/) | concept registry (`CONCEPT:JENA-*`) |
 
 `AGENTS.md` is the canonical contributor/agent guidance.
+
+---
+
+## Repository Owners
+
+<img width="100%" height="180em" src="https://github-readme-stats.vercel.app/api?username=example&show_icons=true&hide_border=true&&count_private=true&include_all_commits=true" />
+
+![GitHub followers](https://img.shields.io/github/followers/example)
+![GitHub User's stars](https://img.shields.io/github/stars/example)
+
+---
+
+## Contribute
+
+Contributions are welcome! Please ensure code quality by running local checks before submitting pull requests:
+- Format code using `ruff format .`
+- Lint code using `ruff check .`
+- Validate type-safety with `mypy .`
+- Run test suites using `pytest`
 
 <!-- BEGIN scion-sdk-deployment (generated; do not edit between markers) -->
 
